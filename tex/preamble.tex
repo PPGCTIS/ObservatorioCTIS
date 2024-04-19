@@ -1,0 +1,63 @@
+% Load packages
+\usepackage[brazilian]{babel}
+\usepackage{fontspec}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{letltxmacro}
+\usepackage{longtable}
+\usepackage{pdfpages}
+\usepackage[notransparent]{svg}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage[linktoc=all]{hyperref}
+
+% Define color
+\definecolor{lightgray}{gray}{0.95}
+
+% Define tcolorbox
+\newtcolorbox{blackbox}{
+  colback=lightgray,
+  colframe=orange,
+  coltext=black,
+  boxsep=5pt,
+  arc=4pt
+}
+
+% Define infobox environment
+\newenvironment{infobox}[1]
+  {
+  \begin{itemize}
+  \renewcommand{\labelitemi}{\raisebox{-.7\height}[0pt][0pt]{\includegraphics[width=3em,keepaspectratio]{#1}}}
+  \setlength{\fboxsep}{1em}
+  \begin{blackbox}
+  \item
+  }
+  {
+  \end{blackbox}
+  \end{itemize}
+  }
+
+% Enable/disable footnotes
+\LetLtxMacro\Oldfootnote\footnote
+\newcommand{\EnableFootNotes}{\LetLtxMacro\footnote\Oldfootnote}
+\newcommand{\DisableFootNotes}{\renewcommand{\footnote}[2][]{\relax}}
+
+% Watermark
+\usepackage{draftwatermark}
+\SetWatermarkLightness{0.9}
+\SetWatermarkText{RASCUNHO}
+\SetWatermarkScale{1}
+
+% Remove the title page
+\AtBeginDocument{\let\maketitle\relax}
+
+% Remove unnecessary packages
+\usepackage{academicons} % Consider removing if not needed
+\usepackage{fontawesome5} % Consider removing if not needed
+
+% Arabic page numbering for backmatter
+\pagenumbering{arabic}

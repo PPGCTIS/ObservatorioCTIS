@@ -1,0 +1,105 @@
+---
+title: Downloads
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    css:
+      - ./CSS/generic.css
+      - ./CSS/logo-above-toc.css
+      - ./CSS/main-color.css
+      - ./CSS/narrow-margins.css
+      - ./CSS/responsive.css
+---
+
+<!--install and/or load all R packages-->
+```{r setup, include = FALSE, echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', out.width = "100%", results = "hide"}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  results = "asis",
+  include = TRUE,
+  out.width = "100%",
+  knitr.kable.NA = '',
+  knitr.table.format = "html",
+  webshot = "webshot",
+  dev = "png"
+)
+```
+
+<!--script for inserting LOGO ABOVE THE TOC-->
+```{js}
+$(document).ready(function() {
+  $('#TOC').parent().prepend('<div id=\"nav_logo\"><img src="PPG/Images/logo-programa.png"></div>');
+  });
+```
+
+<!--script for sharing-->
+<p align="right">
+```{r share}
+home <- metadata$repository_url
+source("Scripts/social-media-sharing.R", local = knitr::knit_global())
+```
+</p>
+
+<br>
+
+```{r downloads, eval = has.downloads}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Downloads.xlsx")
+
+# create a list of tables to display datatables in loop
+datasets <- list()
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  downloads.raw <-
+    readxl::read_excel("PPG/Downloads.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(downloads.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(downloads.raw)[1]) {
+    if (!is.na(downloads.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               downloads.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  downloads.raw <- cbind(downloads.raw[, -3], Abrir)
+  datasets[[j]] <- downloads.raw
+}
+```
+
+```{r create-markdown-chunks-dynamically, eval = has.downloads}
+out <- NULL
+for (i in 1:length(abas)) {
+  knit_expanded <- paste0("\n```{r abas[", as.character(i), "]}
+                          cat('\n\n<!-- -->\n\n')
+                          cat(paste0('## **', abas[", as.character(i), "], '**'))
+                          cat('\n\n<!-- -->\n\n')
+                          cat('<hr style=\"height:2px;border-width:0;color:black;background-color:black\">')
+                          \n\n
+                          source(\"Scripts/table-with-buttons.R\", local = knitr::knit_global())
+                          \n\n
+                          create_dt(datasets[[", as.character(i), "]], title = abas[", as.character(i), "])
+                          \n\n
+                          cat('<br><a style=\"float:right\" href=\"#top\"><b>Início &nbsp;</b>⬆️</a><br>')
+                          \n\n```")
+  out <- c(out, knit_expanded)
+}
+```
+ 
+<!--- knit those table chunk statements --> 
+`r if(has.downloads){paste(knit(text = out), collapse = '\n')}`
+
+<br>

@@ -1,0 +1,2205 @@
+---
+title: Programa
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    css:
+      - ./CSS/generic.css
+      - ./CSS/logo-above-toc.css
+      - ./CSS/main-color.css
+      - ./CSS/narrow-margins.css
+      - ./CSS/responsive.css
+---
+
+<!--install and/or load all R packages-->
+```{r setup, include = FALSE, echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', out.width = "100%", results = "hide"}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  results = "asis",
+  include = TRUE,
+  out.width = "100%",
+  knitr.kable.NA = '',
+  knitr.table.format = "html",
+  webshot = "webshot",
+  dev = "png"
+)
+```
+
+<!--script for inserting LOGO ABOVE THE TOC-->
+```{js}
+$(document).ready(function() {
+  $('#TOC').parent().prepend('<div id=\"nav_logo\"><img src="PPG/Images/logo-programa.png"></div>');
+  });
+```
+
+<!--script for sharing-->
+<p align="right">
+```{r share}
+home <- metadata$repository_url
+source("Scripts/social-media-sharing.R", local = knitr::knit_global())
+```
+</p>
+
+<br>
+
+## **Dados básicos do Programa** {#dados-basicos .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.apresentacao}
+cat('<br>')
+```
+
+```{r apresentacao, eval = has.apresentacao}
+cat(
+  paste0(
+    '<iframe src=\"',
+    readxl::read_excel("PPG/Apresentação.xlsx", sheet = "Sucupira")[1, 1],
+    '\" style=\"width:100%; height:600px; border:2px solid black;\"></iframe>'
+  )
+)
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Breve histórico** {#breve-historico .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.historico}
+cat('<br>')
+```
+
+```{r programa-historico, eval = has.historico}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Histórico.xlsx")
+
+# display each sheet in a tab
+for (i in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[i], '**'))
+  cat('\n\n<!-- -->\n\n')
+  historico.raw <-
+    readxl::read_excel("PPG/Histórico.xlsx",
+               sheet = abas[i],
+               col_types = c("text"))
+  
+  # print table
+  print(
+    knitr::kable(historico.raw, align = "l", col.names = NULL, escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = T,
+      position = "center"
+    )
+  )
+  
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+
+  # print end of tab rows
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Área de avaliação** {#area-avaliacao .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.area.capes}
+cat('<br>')
+```
+
+```{r area-capes, eval = has.area.capes}
+area.capes <-
+  readxl::read_excel("PPG/Área CAPES.xlsx",
+             sheet = "CAPES",
+             col_types = c("text"))
+
+Abrir <- matrix(NA, nrow = dim(area.capes)[1])
+colnames(Abrir) <- "Abrir"
+# add hyperlinks
+for (i in 1:dim(area.capes)[1]) {
+  if (!is.na(area.capes[i, 2])) {
+    Abrir[i] <-
+      paste0('<a href="',
+             area.capes[i, 2],
+             '" target="_blank"',
+             '>',
+             # fontawesome icon
+             fontawesome::fa("up-right-from-square"),
+             '</a>')
+  }
+}
+area.capes <- cbind(area.capes[,-2], Abrir)
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(area.capes, title = "Programa - Área CAPES")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Nota** {#nota}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.notas}
+cat('<br>')
+```
+
+```{r auto-notas, eval = has.notas}
+cat(
+  paste0(
+    '<iframe src=\"',
+    readxl::read_excel("PPG/Notas.xlsx", sheet = "Notas")[1, 1],
+    '\" style=\"width:100%; height:600px; border:2px solid black;\"></iframe>'
+  )
+)
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Área de concentração** {#area-concentracao .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **Atual**
+
+```{r area-concetracao, eval = has.dados.cadastrais}
+area.raw <-
+  readxl::read_excel("PPG/Dados Cadastrais.xlsx",
+                     sheet = "AC",
+                     col_types = c("text"))
+area.raw$Fim <- NULL
+area.ativas <- area.raw
+
+# print tables
+ids <- order(area.ativas$'Área de Concentração', decreasing = FALSE)
+area.ativas <- area.ativas[ids, ]
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(area.ativas, title = "Programa - Áreas de Concentração - Ativas")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Inativas**
+
+```{r area-concetracao-inativas, eval = has.dados.cadastrais}
+areas.raw <-
+  readxl::read_excel("PPG/Dados Cadastrais.xlsx",
+             sheet = "AC",
+             col_types = c("text"))
+areas.inativas <- areas.raw[!is.na(areas.raw$Fim),]
+areas.inativas <-
+  areas.inativas[order(areas.inativas$Fim, decreasing = TRUE),]
+
+# print tables
+ids <- order(areas.inativas$'Área de Concentração', decreasing = FALSE)
+areas.inativas <- areas.inativas[ids, ]
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(areas.inativas, title = "Programa - Áreas de Concentração - Inativas")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Linhas de pesquisa** {#linha-pesquisa .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **Atual**
+
+```{r linhas-de-pesquisa-atual, eval = has.dados.cadastrais}
+linhas.raw <-
+  readxl::read_excel("PPG/Dados Cadastrais.xlsx",
+             sheet = "LP",
+             col_types = c("text"))
+linhas.atual <- linhas.raw[is.na(linhas.raw$Fim),]
+linhas.atual$Fim <- NULL
+
+# print tables
+ids <- order(linhas.atual$'Linhas de Pesquisa', decreasing = FALSE)
+linhas.atual <- linhas.atual[ids, ]
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(linhas.atual, title = "Programa - Linhas de Pesquisa - Ativas")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Inativas**
+
+```{r linhas-de-pesquisa-inativas, eval = has.dados.cadastrais}
+linhas.raw <-
+  readxl::read_excel("PPG/Dados Cadastrais.xlsx",
+             sheet = "LP",
+             col_types = c("text"))
+linhas.inativas <- linhas.raw[!is.na(linhas.raw$Fim),]
+linhas.inativas <-
+  linhas.inativas[order(linhas.inativas$Fim, decreasing = TRUE),]
+
+# print tables
+ids <- order(linhas.inativas$'Linhas de Pesquisa', decreasing = FALSE)
+linhas.inativas <- linhas.inativas[ids, ]
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(linhas.inativas, title = "Programa - Linhas de Pesquisa - Inativas")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Projetos de pesquisa** {#projeto-pesquisa .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **Em andamento** {.tabset}
+
+```{r projetos-em-andamento, eval = has.sucupira.files}
+# projetos - membros
+sheet <- "Projetos - Membros"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# get data from last Sucupira year available
+projetos.all <-
+  do.call(rbind.data.frame, sucupira.list[as.character(max(anos))])
+
+# filter ongoing projects only
+projetos <-
+  unique(projetos.all[projetos.all$`Membro Responsável` == "Sim" &
+                 projetos.all$Situação == "EM ANDAMENTO", ])
+
+table.projetos <-
+  data.frame(
+    projetos$`Área de Concentração`,
+    projetos$`Linha de Pesquisa`,
+    projetos$`Nome do Projeto de Pesquisa`,
+    projetos$`Nome do Membro do Projeto`,
+    projetos$`Data de Início`
+  )
+table.projetos <- table.projetos[order(table.projetos[, 1]),]
+labels <- colnames(table.projetos)
+# print tables
+table.projetos[, 1] <-
+  as.vector(unlist(lapply(table.projetos[, 1], FUN = str_to_upper)))
+table.projetos[, 2] <-
+  as.vector(unlist(lapply(table.projetos[, 2], FUN = str_to_sentence)))
+table.projetos[, 3] <-
+  as.vector(unlist(lapply(table.projetos[, 3], FUN = str_to_title)))
+
+colnames(table.projetos) <-
+  c("Área de Concentração",
+    "Linha de Pesquisa",
+    "Projeto de Pesquisa",
+    "Membro Responsável",
+    "Início")
+
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(table.projetos, title = "Programa - Projetos de Pesquisa - Em andamento")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Encerrados** {.tabset}
+
+```{r projetos-encerrados, eval = has.sucupira.files}
+# projetos - membros
+sheet <- "Projetos - Membros"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# get data from all Sucupira years available
+projetos.all <-
+  do.call(rbind.data.frame, sucupira.list)
+
+# filter closed projects only
+projetos <-
+  unique(projetos.all[projetos.all$`Membro Responsável` == "Sim" &
+                 projetos.all$Situação != "EM ANDAMENTO", ])
+
+table.projetos <-
+  data.frame(
+    projetos$`Área de Concentração`,
+    projetos$`Linha de Pesquisa`,
+    projetos$`Nome do Projeto de Pesquisa`,
+    projetos$`Nome do Membro do Projeto`,
+    projetos$`Data de Início`,
+    projetos$`Data da Situação`
+  )
+table.projetos <- table.projetos[order(table.projetos[, 1]),]
+labels <- colnames(table.projetos)
+# print tables
+table.projetos[, 1] <-
+  as.vector(unlist(lapply(table.projetos[, 1], FUN = str_to_upper)))
+table.projetos[, 2] <-
+  as.vector(unlist(lapply(table.projetos[, 2], FUN = str_to_sentence)))
+table.projetos[, 3] <-
+  as.vector(unlist(lapply(table.projetos[, 3], FUN = str_to_title)))
+
+colnames(table.projetos) <-
+  c("Área de Concentração",
+    "Linha de Pesquisa",
+    "Projeto de Pesquisa",
+    "Membro Responsável",
+    "Início",
+    "Fim")
+
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(table.projetos, title = "Programa - Projetos de Pesquisa - Encerrados")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Agendas de pesquisa** {#agendas-pesquisa .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.agendas.pesquisa}
+cat('<br>')
+```
+
+```{r agendas-pesquisa, eval = has.agendas.pesquisa}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Agendas de Pesquisa.xlsx")
+
+# display each sheet in a tab
+for (i in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[i], '**'))
+  cat('\n\n<!-- -->\n\n')
+  agendas <-
+    readxl::read_excel("PPG/Agendas de Pesquisa.xlsx",
+               sheet = abas[i],
+               col_types = c("text"))
+  
+  cat(
+    paste0(
+      '<iframe src="',
+      agendas[1],
+      '" style=\"width:100%; height:600px; border:2px solid black;"></iframe>'
+    )
+  )
+  
+  # print end of tab rows
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Cursos** {#cursos .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **Níveis**
+
+```{r cursos-niveis, eval = has.dados.cadastrais}
+# read separate sheets
+cursos.raw <-
+  readxl::read_excel("PPG/Dados Cadastrais.xlsx",
+                     sheet = "Cursos",
+                     col_types = c("text"))
+
+cursos <- dplyr::select(cursos.raw, c("Código", "Curso", "Nível"))
+
+# print tables
+print(
+  knitr::kable(cursos, align = c("l", rep("c", ncol(
+    cursos
+  ) - 2), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = T,
+    position = "center"
+  )
+)
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Créditos**
+
+```{r creditos, eval = has.dados.cadastrais}
+# read separate sheets
+creditos.raw <-
+  readxl::read_excel("PPG/Dados Cadastrais.xlsx",
+                     sheet = "Créditos",
+                     col_types = c("text"))
+
+# print tables
+print(
+  knitr::kable(creditos.raw, align = c("l", rep(
+    "c", ncol(creditos.raw) - 2
+  ), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = T,
+    position = "center"
+  )
+)
+```
+
+```{r estrutura-academica-atual-grafico, eval = has.sucupira.files}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+# disciplinas
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# most recent Sucupira year
+most.recent <-
+  as.character(ifelse(
+    !is.null(sucupira.list[[format(Sys.Date(), "%Y")]]),
+    format(Sys.Date(), "%Y"),
+    max(as.numeric(names(sucupira.list)))
+  ))
+
+# read separate sheets
+disciplinas.raw <- sucupira.list[[most.recent]]
+disciplinas.raw <-
+  disciplinas.raw[is.na(disciplinas.raw$`Data de fim`), ]
+
+# select level
+course.level <- "Mestrado"
+disciplinas.msc <-
+  disciplinas.raw[stringr::str_detect(disciplinas.raw$`Nível do Curso`, course.level), ]
+
+table.msc <-
+  data.frame(
+    disciplinas.msc$`Nome da Disciplina`,
+    disciplinas.msc$`Indicadora de disciplina obrigatória`,
+    disciplinas.msc$`Quantidade de créditos`,
+    disciplinas.msc$`Carga Horária`
+  )
+try(colnames(table.msc) <-
+      c("Disciplina", "Obrigatória", "CR", "CH"),
+    silent = TRUE)
+
+# select level
+course.level <- "Doutorado"
+disciplinas.dsc <-
+  disciplinas.raw[stringr::str_detect(disciplinas.raw$`Nível do Curso`, course.level), ]
+table.dsc <-
+  data.frame(
+    disciplinas.dsc$`Nome da Disciplina`,
+    disciplinas.dsc$`Indicadora de disciplina obrigatória`,
+    disciplinas.dsc$`Quantidade de créditos`,
+    disciplinas.dsc$`Carga Horária`
+  )
+try(colnames(table.dsc) <-
+      c("Disciplina", "Obrigatória", "CR", "CH"),
+    silent = TRUE)
+
+table <-
+  merge(table.msc,
+        table.dsc,
+        by = "Disciplina",
+        all.x = TRUE,
+        all.y = TRUE)
+try(colnames(table) <-
+      c(
+        "Disciplina",
+        "Obrigatória (MA)",
+        "CR (MA)",
+        "CH (MA)",
+        "Obrigatória (DA)",
+        "CR (DA)",
+        "CH (DA)"
+      ),
+    silent = TRUE)
+
+if (!is.null(table)) {
+  layout(matrix(
+    c(1, 2, 3, 3),
+    nrow = 2,
+    ncol = 2,
+    byrow = TRUE
+  ), heights = c(0.7, 0.3))
+  par(oma = c(0.1, 0.1, 2, 0.1), mar = c(1, 1, 1, 1))
+  # generate plot of total per course
+  if (dim(table.msc)[1] != 0) {
+    pie(
+      table(table.msc[, which(colnames(table.msc) == "Obrigatória")]),
+      labels = NA,
+      col = RColorBrewer::brewer.pal(n = min(unique(
+        colnames(table.msc)
+      ), 3), name = "Set3"),
+      init.angle = 90,
+      main = "Mestrado"
+    )
+  }
+  if (dim(table.dsc)[1] != 0) {
+    pie(
+      table(table.dsc[, which(colnames(table.dsc) == "Obrigatória")]),
+      labels = NA,
+      col = RColorBrewer::brewer.pal(n = min(unique(
+        colnames(table.dsc)
+      ), 3), name = "Set3"),
+      init.angle = 90,
+      main = "Doutorado"
+    )
+  }
+  plot(0, type = 'n', axes = FALSE)
+  obrigatoria <-
+    unique(disciplinas.raw$`Indicadora de disciplina obrigatória`)
+  obrigatoria[which(obrigatoria == "Sim")] <- "Obrigatória"
+  obrigatoria[which(obrigatoria == "Não")] <- "Eletiva"
+  legend(
+    "center",
+    legend = obrigatoria,
+    fill = RColorBrewer::brewer.pal(n = length(obrigatoria), name = "Set3"),
+    box.lwd = 0,
+    cex = 1
+  )
+} else {
+  cat("*Sem dados para exibir*")
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Calculadora de créditos (D)** {#calculadora-creditos-d .tabset}
+
+```{r calculadora-creditos, eval = has.dados.cadastrais}
+# Read the Excel file
+dados.do.programa.raw <- readxl::read_excel("PPG/Dados Cadastrais.xlsx", sheet = "Créditos", col_types = "text")
+
+# Rename the columns
+colnames(dados.do.programa.raw) <- seq_len(ncol(dados.do.programa.raw))
+```
+
+<center>
+  **TOTAL REQUERIDO: `r ifelse(has.dados.cadastrais, dados.do.programa.raw[1,3], "")` CR**
+  <br>
+  Créditos OBRIGATÓRIOS marcados: <strong id=msgOBRDSC></strong>
+  <br>
+  Créditos ELETIVOS marcados: <strong id=msgELEDSC></strong>
+</center>
+
+#### **Obrigatórios**
+
+<!--script for generating CALCULATOR FORM-->
+```{js OBRDSC}
+function chkcontrol3(j) {
+var sumOBRDSC=0;
+for(var i=0; i < document.formOBRDSC.ckb.length; i++){
+  if(document.formOBRDSC.ckb[i].checked){
+    sumOBRDSC = sumOBRDSC + parseInt(document.formOBRDSC.ckb[i].value);
+    }
+  document.getElementById("msgOBRDSC").innerHTML= sumOBRDSC + " CR";
+  }
+}
+```
+
+```{r calculadora-doutorado-obrigatorias, eval = has.sucupira.files}
+# disciplinas
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# most recent Sucupira year
+most.recent <-
+  as.character(ifelse(!is.null(sucupira.list[[format(Sys.Date(), "%Y")]]), format(Sys.Date(), "%Y"), max(as.numeric(
+    names(sucupira.list)
+  ))))
+
+# read separate sheets
+disciplinas.raw <- sucupira.list[[most.recent]]
+disciplinas.raw <-
+  disciplinas.raw[is.na(disciplinas.raw$`Data de fim`),]
+disciplinas.dsc <-
+  disciplinas.raw[which(`dim<-`(grepl('Doutorado', disciplinas.raw$`Nível do Curso`), dim(disciplinas.raw$`Nível do Curso`)), arr.ind = TRUE),]
+
+if (dim(disciplinas.dsc)[1] != 0) {
+  table.dsc <-
+    data.frame(
+      disciplinas.dsc$`Nome da Disciplina`,
+      disciplinas.dsc$`Indicadora de disciplina obrigatória`,
+      disciplinas.dsc$`Quantidade de créditos`,
+      disciplinas.dsc$`Carga Horária`
+    )
+  colnames(table.dsc) <- c("Disciplina", "Obrigatória", "CR", "CH")
+  
+  # filtra e exibe apenas as obrigatórias
+  table.dsc <- table.dsc[table.dsc[, 2] == "Sim",]
+  table.dsc <- table.dsc[complete.cases(table.dsc),]
+  table.dsc <- table.dsc[,-2]
+  
+  cat('<form name=formOBRDSC method=post action=check.php>')
+  cat('<table class=\"table table-striped\">')
+  for (i in 1:dim(table.dsc)[1]) {
+    cat(
+      '<tr><td><input type=\"checkbox\" name=\"ckb\" value=\"',
+      table.dsc[i, 2],
+      '\" onclick=\"chkcontrol3(',
+      i - 1,
+      ')\">',
+      paste0(table.dsc[i, 1], ' (', table.dsc[i, 2], ' CR) (', table.dsc[i, 3]),
+      ' CH)',
+      '</input></td></tr>'
+    )
+  }
+  cat('</table></form>')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+#### **Eletivos**
+
+<!--script for generating CALCULATOR FORM-->
+```{js ELEDSC}
+function chkcontrol4(j) {
+var sumELEDSC=0;
+for(var i=0; i < document.formELEDSC.ckb.length; i++){
+  if(document.formELEDSC.ckb[i].checked){
+    sumELEDSC = sumELEDSC + parseInt(document.formELEDSC.ckb[i].value);
+    }
+  document.getElementById("msgELEDSC").innerHTML= sumELEDSC + " CR";
+  }
+}
+```
+
+```{r calculadora-doutorado-eletivas, eval = has.sucupira.files}
+# disciplinas
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# most recent Sucupira year
+most.recent <-
+  as.character(ifelse(!is.null(sucupira.list[[format(Sys.Date(), "%Y")]]), format(Sys.Date(), "%Y"), max(as.numeric(
+    names(sucupira.list)
+  ))))
+
+# read separate sheets
+disciplinas.raw <- sucupira.list[[most.recent]]
+disciplinas.raw <-
+  disciplinas.raw[is.na(disciplinas.raw$`Data de fim`),]
+disciplinas.dsc <-
+  disciplinas.raw[which(`dim<-`(grepl('Doutorado', disciplinas.raw$`Nível do Curso`), dim(disciplinas.raw$`Nível do Curso`)), arr.ind = TRUE),]
+
+if (dim(disciplinas.dsc)[1] != 0) {
+  table.dsc <-
+    data.frame(
+      disciplinas.dsc$`Nome da Disciplina`,
+      disciplinas.dsc$`Indicadora de disciplina obrigatória`,
+      disciplinas.dsc$`Quantidade de créditos`,
+      disciplinas.dsc$`Carga Horária`
+    )
+  colnames(table.dsc) <- c("Disciplina", "Eletiva", "CR", "CH")
+  
+  # filtra e exibe apenas as obrigatórias
+  table.dsc <- table.dsc[table.dsc[, 2] == "Não",]
+  table.dsc <- table.dsc[complete.cases(table.dsc),]
+  table.dsc <- table.dsc[,-2]
+  
+  cat('<form name=formELEDSC method=post action=check.php>')
+  cat('<table class=\"table table-striped\">')
+  for (i in 1:dim(table.dsc)[1]) {
+    cat(
+      '<tr><td><input type=\"checkbox\" name=\"ckb\" value=\"',
+      table.dsc[i, 2],
+      '\" onclick=\"chkcontrol4(',
+      i - 1,
+      ')\">',
+      paste0(table.dsc[i, 1], ' (', table.dsc[i, 2], ' CR) (', table.dsc[i, 3]),
+      ' CH)',
+      '</input></td></tr>'
+    )
+  }
+  cat('</table></form>')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Calculadora de créditos (M)** {#calculadora-creditos-m .tabset}
+
+<center>
+  **TOTAL REQUERIDO: `r ifelse(has.dados.cadastrais, dados.do.programa.raw[1,2], "")` CR**
+  <br>
+  Créditos OBRIGATÓRIOS marcados: <strong id=msgOBRMSC></strong>
+  <br>
+  Créditos ELETIVOS marcados: <strong id=msgELEMSC></strong>
+</center>
+
+#### **Obrigatórios**
+
+<!--script for generating CALCULATOR FORM-->
+```{js OBRMSC}
+function chkcontrol1(j) {
+var sumOBRMSC=0;
+for(var i=0; i < document.formOBRMSC.ckb.length; i++){
+  if(document.formOBRMSC.ckb[i].checked){
+    sumOBRMSC = sumOBRMSC + parseInt(document.formOBRMSC.ckb[i].value);
+    }
+  document.getElementById("msgOBRMSC").innerHTML= sumOBRMSC + " CR";
+  }
+}
+```
+
+```{r calculadora-mestrado-obrigatorias, eval = has.sucupira.files}
+# disciplinas
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# most recent Sucupira year
+most.recent <-
+  as.character(ifelse(!is.null(sucupira.list[[format(Sys.Date(), "%Y")]]), format(Sys.Date(), "%Y"), max(as.numeric(
+    names(sucupira.list)
+  ))))
+
+# read separate sheets
+disciplinas.raw <- sucupira.list[[most.recent]]
+disciplinas.raw <-
+  disciplinas.raw[is.na(disciplinas.raw$`Data de fim`),]
+disciplinas.msc <-
+  disciplinas.raw[which(`dim<-`(grepl('Mestrado', disciplinas.raw$`Nível do Curso`), dim(disciplinas.raw$`Nível do Curso`)), arr.ind = TRUE),]
+
+if (dim(disciplinas.msc)[1] != 0) {
+  table.msc <-
+    data.frame(
+      disciplinas.msc$`Nome da Disciplina`,
+      disciplinas.msc$`Indicadora de disciplina obrigatória`,
+      disciplinas.msc$`Quantidade de créditos`,
+      disciplinas.msc$`Carga Horária`
+    )
+  colnames(table.msc) <- c("Disciplina", "Obrigatória", "CR", "CH")
+  
+  # filtra e exibe apenas as obrigatórias
+  table.msc <- table.msc[table.msc[, 2] == "Sim",]
+  table.msc <- table.msc[complete.cases(table.msc),]
+  table.msc <- table.msc[,-2]
+  
+  cat('<form name=formOBRMSC method=post action=check.php>')
+  cat('<table class=\"table table-striped\">')
+  for (i in 1:dim(table.msc)[1]) {
+    cat(
+      '<tr><td><input type=\"checkbox\" name=\"ckb\" value=\"',
+      table.msc[i, 2],
+      '\" onclick=\"chkcontrol1(',
+      i - 1,
+      ')\">',
+      paste0(table.msc[i, 1], ' (', table.msc[i, 2], ' CR) (', table.msc[i, 3]),
+      ' CH)',
+      '</input></td></tr>'
+    )
+  }
+  cat('</table></form>')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+#### **Eletivos**
+
+<!--script for generating CALCULATOR FORM-->
+```{js ELEMSC}
+function chkcontrol2(j) {
+var sumELEMSC=0;
+for(var i=0; i < document.formELEMSC.ckb.length; i++){
+  if(document.formELEMSC.ckb[i].checked){
+    sumELEMSC = sumELEMSC + parseInt(document.formELEMSC.ckb[i].value);
+    }
+  document.getElementById("msgELEMSC").innerHTML= sumELEMSC + " CR";
+  }
+}
+```
+
+```{r calculadora-mestrado-eletivas, eval = has.sucupira.files}
+# disciplinas
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# most recent Sucupira year
+most.recent <-
+  as.character(ifelse(!is.null(sucupira.list[[format(Sys.Date(), "%Y")]]), format(Sys.Date(), "%Y"), max(as.numeric(
+    names(sucupira.list)
+  ))))
+
+# read separate sheets
+disciplinas.raw <- sucupira.list[[most.recent]]
+disciplinas.raw <-
+  disciplinas.raw[is.na(disciplinas.raw$`Data de fim`),]
+disciplinas.msc <-
+  disciplinas.raw[which(`dim<-`(grepl('Mestrado', disciplinas.raw$`Nível do Curso`), dim(disciplinas.raw$`Nível do Curso`)), arr.ind = TRUE),]
+
+if (dim(disciplinas.msc)[1] != 0) {
+  table.msc <-
+    data.frame(
+      disciplinas.msc$`Nome da Disciplina`,
+      disciplinas.msc$`Indicadora de disciplina obrigatória`,
+      disciplinas.msc$`Quantidade de créditos`,
+      disciplinas.msc$`Carga Horária`
+    )
+  colnames(table.msc) <- c("Disciplina", "Eletiva", "CR", "CH")
+  
+  # filtra e exibe apenas as obrigatórias
+  table.msc <- table.msc[table.msc[, 2] == "Não",]
+  table.msc <- table.msc[complete.cases(table.msc),]
+  table.msc <- table.msc[,-2]
+  
+  cat('<form name=formELEMSC method=post action=check.php>')
+  cat('<table class=\"table table-striped\">')
+  for (i in 1:dim(table.msc)[1]) {
+    cat(
+      '<tr><td><input type=\"checkbox\" name=\"ckb\" value=\"',
+      table.msc[i, 2],
+      '\" onclick=\"chkcontrol2(',
+      i - 1,
+      ')\">',
+      paste0(table.msc[i, 1], ' (', table.msc[i, 2], ' CR) (', table.msc[i, 3]),
+      ' CH)',
+      '</input></td></tr>'
+    )
+  }
+  cat('</table></form>')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Estrutura curricular** {#estrutura-curricular .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **Disciplinas**
+
+```{r estrutura-academica-atual-tabela, eval = has.sucupira.files}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+# projetos
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# most recent Sucupira year
+most.recent <-
+  as.character(ifelse(
+    !is.null(sucupira.list[[format(Sys.Date(), "%Y")]]),
+    format(Sys.Date(), "%Y"),
+    max(as.numeric(names(sucupira.list)))
+  ))
+
+# read separate sheets
+disciplinas.raw <- sucupira.list[[most.recent]]
+disciplinas.raw <-
+  disciplinas.raw[is.na(disciplinas.raw$`Data de fim`), ]
+
+# select level
+course.level <- "Mestrado"
+disciplinas.msc <-
+  disciplinas.raw[stringr::str_detect(disciplinas.raw$`Nível do Curso`, course.level),]
+table.msc <-
+  data.frame(
+    disciplinas.msc$`Nome da Disciplina`,
+    disciplinas.msc$`Indicadora de disciplina obrigatória`,
+    disciplinas.msc$`Quantidade de créditos`,
+    disciplinas.msc$`Carga Horária`,
+    substr(as.Date(disciplinas.msc$`Data de início`, format = "%d/%m/%Y"), 1, 4)
+  )
+colnames(table.msc) <- c("Disciplina", "Obrigatória", "CR", "CH", "Início")
+
+# select level
+course.level <- "Doutorado"
+disciplinas.dsc <-
+  disciplinas.raw[stringr::str_detect(disciplinas.raw$`Nível do Curso`, course.level),]
+table.dsc <-
+  data.frame(
+    disciplinas.dsc$`Nome da Disciplina`,
+    disciplinas.dsc$`Indicadora de disciplina obrigatória`,
+    disciplinas.dsc$`Quantidade de créditos`,
+    disciplinas.dsc$`Carga Horária`,
+    substr(as.Date(disciplinas.dsc$`Data de início`, format = "%d/%m/%Y"), 1, 4)
+  )
+colnames(table.dsc) <- c("Disciplina", "Obrigatória", "CR", "CH", "Início")
+
+table <-
+  merge(table.msc,
+        table.dsc,
+        by = "Disciplina",
+        all.x = TRUE,
+        all.y = TRUE)
+colnames(table) <-
+  c(
+    "Disciplina",
+    "Obrigatória (MA)",
+    "CR",
+    "CH",
+    "Início",
+    "Obrigatória (DA)",
+    "CR",
+    "CH",
+    "Início"
+  )
+
+ids <- order(table$'Disciplina', decreasing = FALSE)
+table <- table[ids,]
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(table, title = "Programa - Disciplinas - Ativas")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Ementas**
+
+```{r ementas, eval = has.bibliografia}
+# Read separate sheets
+bibliografia.raw <- readxl::read_excel("PPG/Bibliografia.xlsx",
+                                       sheet = "Ementas",
+                                       col_types = c("text"))
+
+# Extract link to ementas
+link_ementas <- as.character(bibliografia.raw[, 3])
+
+# Sanitize the link
+sanitized_link <- utils::URLencode(link_ementas)
+
+# Embed the content into an iframe
+iframe_code <- paste0(
+  '<iframe src=\"',
+  sanitized_link,
+  '/preview\" style=\"width:100%; height:600px; border:0;\"></iframe>'
+)
+
+# Print the iframe code
+cat(iframe_code)
+
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+### **Bibliografia**
+
+```{r bibliografia, eval = has.bibliografia}
+# read separate sheets
+bibliografia.raw <-
+  readxl::read_excel("PPG/Bibliografia.xlsx",
+                     sheet = "Bibliografia",
+                     col_types = c("text"))
+
+ids <- order(bibliografia.raw$'Disciplina', decreasing = FALSE)
+bibliografia.raw <- bibliografia.raw[ids, ]
+
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(bibliografia.raw, title = "Programa - Bibliografia")
+
+cat('<br>')
+```
+
+```{r bibliografia-ano, eval = has.bibliografia}
+# read separate sheets
+bibliografia.raw <-
+  readxl::read_excel("PPG/Bibliografia.xlsx",
+                     sheet = "Bibliografia",
+                     col_types = c("text"))
+
+bib.ano.raw <- bibliografia.raw$Referência
+bib.ano <-
+  as.numeric(na.exclude(str_extract(bib.ano.raw, "[' '][2-2][0-9][0-9][0-9]")))
+bib.ano <-
+  as.numeric(na.exclude(
+    str_extract(
+      bib.ano.raw,
+      "[' '][1-1][9-9][5-9][0-9]|[2-2][0-0][0-2][0-1]"
+    )
+  ))
+
+par(oma = c(2, 0.1, 2, 0.1), mar = c(5, 4, 2, 2))
+# generate plot of conceitos per year
+hist(
+  bib.ano,
+  xlab = "Ano de publicação",
+  ylab = "Referências (N)",
+  col = RColorBrewer::brewer.pal(n = 3, name = "Set3")[1],
+  main = NULL
+)
+title("Referências bibliográficas, por ano de publicação", outer = TRUE)
+
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+### **Inativas**
+
+```{r estrutura-academica-inativa, eval = has.sucupira.files}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+# disciplinas
+sheet <- "Disciplinas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+disciplinas.raw <- sucupira.raw
+disciplinas.raw <-
+  disciplinas.raw[!is.na(disciplinas.raw$`Data de fim`), ]
+
+disciplinas.msc <-
+  disciplinas.raw[which(`dim<-`(
+    grepl('Mestrado', disciplinas.raw$`Nível do Curso`),
+    dim(disciplinas.raw$`Nível do Curso`)
+  ), arr.ind = TRUE),]
+table.msc <-
+  cbind(
+    disciplinas.msc$`Nome da Disciplina`,
+    disciplinas.msc$`Indicadora de disciplina obrigatória`,
+    disciplinas.msc$`Quantidade de créditos`,
+    disciplinas.msc$`Carga Horária`,
+    substr(as.Date(disciplinas.msc$`Data de fim`, format = "%d/%m/%Y"), 1, 4)
+  )
+colnames(table.msc) <-
+  c("Disciplina", "Obrigatória", "CR", "CH", "Fim")
+
+disciplinas.dsc <-
+  disciplinas.raw[which(`dim<-`(
+    grepl('Doutorado', disciplinas.raw$`Nível do Curso`),
+    dim(disciplinas.raw$`Nível do Curso`)
+  ), arr.ind = TRUE),]
+table.dsc <-
+  cbind(
+    disciplinas.dsc$`Nome da Disciplina`,
+    disciplinas.dsc$`Indicadora de disciplina obrigatória`,
+    disciplinas.dsc$`Quantidade de créditos`,
+    disciplinas.dsc$`Carga Horária`,
+    substr(as.Date(disciplinas.dsc$`Data de fim`, format = "%d/%m/%Y"), 1, 4)
+  )
+colnames(table.dsc) <-
+  c("Disciplina", "Obrigatória", "CR", "CH", "Fim")
+
+table <-
+  merge(table.msc,
+        table.dsc,
+        by = "Disciplina",
+        all.x = TRUE,
+        all.y = TRUE)
+colnames(table) <-
+  c(
+    "Disciplina",
+    "Obrigatória (MA)",
+    "CR",
+    "CH",
+    "Fim",
+    "Obrigatória (DA)",
+    "CR",
+    "CH",
+    "Fim"
+  )
+
+# remove duplicated entries
+table <- table[!duplicated(table),]
+
+ids <- order(table$'Disciplina', decreasing = FALSE)
+table <- table[ids,]
+
+# print tables
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(table, title = "Programa - Disciplinas - Inativas")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Turmas** {#turmas .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **2024-2021**
+
+```{r turmas-2024-2021, eval = has.sucupira.files}
+# turmas
+sheet <- "Turmas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# bind all sheets
+periodos <-
+  names(sucupira.list)[na.omit(match(c(2021:2024), names(sucupira.list)))]
+
+has.avaliacao <- as.logical(length(periodos) != 0)
+```
+
+```{r turmas-2024, eval = all(has.sucupira.files, has.avaliacao)}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+periodo <- as.character(seq(min(periodos), max(periodos), by = 1))
+turmas.raw <- do.call(rbind.data.frame, sucupira.list[as.character(periodos)])
+
+if (dim(turmas.raw)[1] != 0) {
+  # build a cross table DISCIPLINA vs. ANO
+  turmas.raw$`Período/Ano` <-
+    paste(
+      sub(".*/", "", turmas.raw$`Período/Ano`),
+      sub("/.*", "", turmas.raw$`Período/Ano`),
+      sep = "/"
+    )
+  cross.table.turmas <-
+    as.matrix(table(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Período/Ano`
+    ))
+  Oferecida <- colSums(cross.table.turmas)
+  Oferecida[Oferecida > 0] <- "✅"
+  Oferecida[Oferecida == 0] <- ""
+  turmas.oferecidas <- rbind(Oferecida, cross.table.turmas)
+  turmas.oferecidas[turmas.oferecidas > 0] <- "✔"
+  turmas.oferecidas[turmas.oferecidas == 0] <- ""
+  if (length(colnames(turmas.oferecidas)) > 1) {
+    turmas.oferecidas <-
+      turmas.oferecidas[, order(colnames(turmas.oferecidas), decreasing = TRUE)]
+  }
+  print(
+    knitr::kable(turmas.oferecidas, align = c("l", rep(
+      "c",  max(0, ncol(turmas.oferecidas) - 2)
+    ), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = T,
+      position = "center"
+    ) %>% kableExtra::scroll_box(width = "100%")
+  )
+  
+  # line break
+  cat("  \n")
+  cat("  \n")
+  
+  legenda.turma <-
+    unique(cbind(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Nome da Disciplina`
+    ))
+  legenda.turma <- legenda.turma[order(legenda.turma[, 1]),]
+  cat(paste0(
+    "*",
+    legenda.turma[, 1],
+    ": ",
+    lapply(legenda.turma[, 2], str_to_title),
+    "*",
+    collapse = "; "
+  ))
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **2020-2017**
+
+```{r turmas-2020-2017, eval = has.sucupira.files}
+# turmas
+sheet <- "Turmas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# bind all sheets
+periodos <-
+  names(sucupira.list)[na.omit(match(c(2017:2020), names(sucupira.list)))]
+
+has.avaliacao <- as.logical(length(periodos) != 0)
+```
+
+```{r turmas-2020, eval = all(has.sucupira.files, has.avaliacao)}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+periodo <- as.character(seq(min(periodos), max(periodos), by = 1))
+turmas.raw <- do.call(rbind.data.frame, sucupira.list[as.character(periodos)])
+
+if (dim(turmas.raw)[1] != 0) {
+  # build a cross table DISCIPLINA vs. ANO
+  turmas.raw$`Período/Ano` <-
+    paste(
+      sub(".*/", "", turmas.raw$`Período/Ano`),
+      sub("/.*", "", turmas.raw$`Período/Ano`),
+      sep = "/"
+    )
+  cross.table.turmas <-
+    as.matrix(table(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Período/Ano`
+    ))
+  Oferecida <- colSums(cross.table.turmas)
+  Oferecida[Oferecida > 0] <- "✅"
+  Oferecida[Oferecida == 0] <- ""
+  turmas.oferecidas <- rbind(Oferecida, cross.table.turmas)
+  turmas.oferecidas[turmas.oferecidas > 0] <- "✔"
+  turmas.oferecidas[turmas.oferecidas == 0] <- ""
+  if (length(colnames(turmas.oferecidas)) > 1) {
+    turmas.oferecidas <-
+      turmas.oferecidas[, order(colnames(turmas.oferecidas), decreasing = TRUE)]
+  }
+  print(
+    knitr::kable(turmas.oferecidas, align = c("l", rep(
+      "c",  max(0, ncol(turmas.oferecidas) - 2)
+    ), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = T,
+      position = "center"
+    ) %>% kableExtra::scroll_box(width = "100%")
+  )
+  
+  # line break
+  cat("  \n")
+  cat("  \n")
+  
+  legenda.turma <-
+    unique(cbind(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Nome da Disciplina`
+    ))
+  legenda.turma <- legenda.turma[order(legenda.turma[, 1]),]
+  cat(paste0(
+    "*",
+    legenda.turma[, 1],
+    ": ",
+    lapply(legenda.turma[, 2], str_to_title),
+    "*",
+    collapse = "; "
+  ))
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **2016-2013**
+
+```{r turmas-2016-2013, eval = has.sucupira.files}
+# turmas
+sheet <- "Turmas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# bind all sheets
+periodos <-
+  names(sucupira.list)[na.omit(match(c(2013:2016), names(sucupira.list)))]
+
+has.avaliacao <- as.logical(length(periodos) != 0)
+```
+
+```{r turmas-2016, eval = all(has.sucupira.files, has.avaliacao)}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+periodo <- as.character(seq(min(periodos), max(periodos), by = 1))
+turmas.raw <- do.call(rbind.data.frame, sucupira.list[as.character(periodos)])
+
+if (dim(turmas.raw)[1] != 0) {
+  # build a cross table DISCIPLINA vs. ANO
+  turmas.raw$`Período/Ano` <-
+    paste(
+      sub(".*/", "", turmas.raw$`Período/Ano`),
+      sub("/.*", "", turmas.raw$`Período/Ano`),
+      sep = "/"
+    )
+  cross.table.turmas <-
+    as.matrix(table(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Período/Ano`
+    ))
+  Oferecida <- colSums(cross.table.turmas)
+  Oferecida[Oferecida > 0] <- "✅"
+  Oferecida[Oferecida == 0] <- ""
+  turmas.oferecidas <- rbind(Oferecida, cross.table.turmas)
+  turmas.oferecidas[turmas.oferecidas > 0] <- "✔"
+  turmas.oferecidas[turmas.oferecidas == 0] <- ""
+  if (length(colnames(turmas.oferecidas)) > 1) {
+    turmas.oferecidas <-
+      turmas.oferecidas[, order(colnames(turmas.oferecidas), decreasing = TRUE)]
+  }
+  print(
+    knitr::kable(turmas.oferecidas, align = c("l", rep(
+      "c",  max(0, ncol(turmas.oferecidas) - 2)
+    ), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = T,
+      position = "center"
+    ) %>% kableExtra::scroll_box(width = "100%")
+  )
+  
+  # line break
+  cat("  \n")
+  cat("  \n")
+  
+  legenda.turma <-
+    unique(cbind(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Nome da Disciplina`
+    ))
+  legenda.turma <- legenda.turma[order(legenda.turma[, 1]),]
+  cat(paste0(
+    "*",
+    legenda.turma[, 1],
+    ": ",
+    lapply(legenda.turma[, 2], str_to_title),
+    "*",
+    collapse = "; "
+  ))
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **2012-2010**
+
+```{r turmas-2012-2010, eval = has.sucupira.files}
+# turmas
+sheet <- "Turmas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# bind all sheets
+periodos <-
+  names(sucupira.list)[na.omit(match(c(2010:2012), names(sucupira.list)))]
+
+has.avaliacao <- as.logical(length(periodos) != 0)
+```
+
+```{r turmas-2012, eval = all(has.sucupira.files, has.avaliacao)}
+# load custom function
+source("Scripts/get-initials.R", local = knitr::knit_global())
+
+periodo <- as.character(seq(min(periodos), max(periodos), by = 1))
+turmas.raw <- do.call(rbind.data.frame, sucupira.list[as.character(periodos)])
+
+if (dim(turmas.raw)[1] != 0) {
+  # build a cross table DISCIPLINA vs. ANO
+  turmas.raw$`Período/Ano` <-
+    paste(
+      sub(".*/", "", turmas.raw$`Período/Ano`),
+      sub("/.*", "", turmas.raw$`Período/Ano`),
+      sep = "/"
+    )
+  cross.table.turmas <-
+    as.matrix(table(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Período/Ano`
+    ))
+  Oferecida <- colSums(cross.table.turmas)
+  Oferecida[Oferecida > 0] <- "✅"
+  Oferecida[Oferecida == 0] <- ""
+  turmas.oferecidas <- rbind(Oferecida, cross.table.turmas)
+  turmas.oferecidas[turmas.oferecidas > 0] <- "✔"
+  turmas.oferecidas[turmas.oferecidas == 0] <- ""
+  if (length(colnames(turmas.oferecidas)) > 1) {
+    turmas.oferecidas <-
+      turmas.oferecidas[, order(colnames(turmas.oferecidas), decreasing = TRUE)]
+  }
+  print(
+    knitr::kable(turmas.oferecidas, align = c("l", rep(
+      "c",  max(0, ncol(turmas.oferecidas) - 2)
+    ), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = T,
+      position = "center"
+    ) %>% kableExtra::scroll_box(width = "100%")
+  )
+  
+  # line break
+  cat("  \n")
+  cat("  \n")
+  
+  legenda.turma <-
+    unique(cbind(
+      initials(turmas.raw$`Nome da Disciplina`),
+      turmas.raw$`Nome da Disciplina`
+    ))
+  legenda.turma <- legenda.turma[order(legenda.turma[, 1]),]
+  cat(paste0(
+    "*",
+    legenda.turma[, 1],
+    ": ",
+    lapply(legenda.turma[, 2], str_to_title),
+    "*",
+    collapse = "; "
+  ))
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Calendários** {#calendarios .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.calendarios}
+cat('<br>')
+```
+
+```{r calendarios, eval = has.calendarios}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Calendários.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  calendarios.raw <-
+    readxl::read_excel("PPG/Calendários.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(calendarios.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(calendarios.raw)[1]) {
+    if (!is.na(calendarios.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               calendarios.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  calendarios <- cbind(calendarios.raw[, -3], Abrir)
+  
+  ids <- order(calendarios[, 1], decreasing = TRUE)
+  calendarios <- calendarios[ids,]
+
+  # print table
+  if (dim(calendarios)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(calendarios, title = "Programa - Calendários")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Editais de processo seletivo** {#editais .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.calendarios}
+cat('<br>')
+```
+
+```{r editais, eval = has.calendarios}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Editais.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  editais.raw <-
+    readxl::read_excel("PPG/Editais.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(editais.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(editais.raw)[1]) {
+    if (!is.na(editais.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               editais.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  editais <- cbind(editais.raw[, -3], Abrir)
+  
+  ids <- order(editais[, 1], decreasing = TRUE)
+  editais <- editais[ids,]
+
+  # print table
+  if (dim(editais)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(editais, title = "Programa - Editais")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Infraestrutura** {#infraestrutura .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.infraestrutura}
+cat('<br>')
+```
+
+```{r infraestrutura, eval = has.infraestrutura}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Infraestrutura.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  infraestrutura.raw <-
+    readxl::read_excel("PPG/Infraestrutura.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # print table
+  if (dim(infraestrutura.raw)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(infraestrutura.raw, title = "Programa - Infraestrutura")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Laboratórios de pesquisa** {#laboratorios-pesquisa .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.laboratorios}
+cat('<br>')
+```
+
+```{r laboratorios-equipamentos, eval = has.laboratorios}
+# read data
+abas <- readxl::excel_sheets("PPG/Laboratórios.xlsx")
+
+for (i in 1:length(abas)) {
+  lab <-
+    readxl::read_excel("PPG/Laboratórios.xlsx",
+               sheet = paste0("Lab", i))
+  name <- names(lab[1])
+  
+  cat('\n\n<!-- -->\n\n')
+  name <- names(lab[1])
+  colnames(lab) <- lab[1, ]
+  
+  cat('\n\n<!-- -->\n\n')
+  cat("### **", paste0("Lab. ", i), "**", "\n", sep = "")
+  cat('\n\n<!-- -->\n\n')
+  cat('<center>\n')
+  cat("**", name, "**", sep = "")
+  cat('\n\n<!-- -->\n\n')
+  cat('\n</center>')
+  
+  cat('<div class = "row"><div class = "col-md-6">')
+  cat('<center>\n')
+  cat('\n\n<!-- -->\n\n')
+  lab <- lab[-1,]
+  cat(paste0("![](", getwd(), "/PPG/Labs/Lab-", i, ".jpg)"), "\n")
+  cat('\n\n<!-- -->\n\n')
+  cat('\n</center>')
+  cat('</div>')
+  
+  cat('<div class = "col-md-6">')
+  cat('<center>\n')
+  cat('\n\n<!-- -->\n\n')
+  print(
+    knitr::kable(lab, digits = 0, align = c("l", rep("c", ncol(
+      lab
+    ) - 2), "r"), escape = FALSE, format = "html") %>% kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+      full_width = T,
+      position = "center"
+    )  %>% kableExtra::scroll_box(width = "100%", height = "250px")
+  )
+  cat('\n</center>')
+  cat('</div></div>')
+  
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Convênios institucionais** {#convenios .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.convenios}
+cat('<br>')
+```
+
+```{r programa-convenios, eval = has.convenios}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Convênios.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  convenios.raw <-
+    readxl::read_excel("PPG/Convênios.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(convenios.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(convenios.raw)[1]) {
+    if (!is.na(convenios.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               convenios.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  convenios <- cbind(convenios.raw[, -3], Abrir)
+  
+  # print table
+  if (dim(convenios)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(convenios, title = "Programa - Convênios institucionais")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Cooperação interinstitucional** {#cooperacao .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.convenios}
+cat('<br>')
+```
+
+```{r programa-cooperacao, eval = has.cooperacoes}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Cooperações.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  cooperacoes.raw <-
+    readxl::read_excel("PPG/Cooperações.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(cooperacoes.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(cooperacoes.raw)[1]) {
+    if (!is.na(cooperacoes.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               cooperacoes.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  cooperacoes <- cbind(cooperacoes.raw[, -3], Abrir)
+  
+  # print table
+  if (dim(cooperacoes)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(
+      create_dt(cooperacoes, title = "Programa - Cooperação interinstitucional")
+    ))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Internacionalização** {#internacional .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.internacionalizacao}
+cat('<br>')
+```
+
+```{r internacional, eval = has.internacionalizacao}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Internacionalização.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  internacional.raw <-
+    readxl::read_excel(
+      "PPG/Internacionalização.xlsx",
+      sheet = abas[j],
+      col_types = c("text")
+    )
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(internacional.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(internacional.raw)[1]) {
+    if (!is.na(internacional.raw[i, 4])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               internacional.raw[i, 4],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  internacional <- cbind(internacional.raw[, -4], Abrir)
+  
+  # print table
+  if (dim(internacional)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(internacional, title = "Programa - Internacionalização")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('Fonte: **PPG**')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Financiadores** {#financiadores .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+### **Projetos de pesquisa** {#financiadores-projetos .tabset}
+
+#### **Auxílio financeiro** {#auxilio-financeiro}
+
+```{r financiadores-sucupira-pp-auxilios, eval = has.sucupira.files}
+# projetos - membros
+sheet <- "Projetos - Financiadores"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+periodos <- names(sucupira.list)
+financiadores.all <- do.call(rbind.data.frame, sucupira.list[periodos])
+financiadores.all <- unique(financiadores.all)
+
+if (dim(financiadores.all)[1] != 0) {
+  # dplyr::select data
+  table.financiadores <- dplyr::select(financiadores.all,
+                                      c("Nome do Financiador",
+                                        "Natureza do Financiador",
+                                        "Data Início Financiador",
+                                        "Data Fim Financiador"))
+  table.financiadores <- table.financiadores[order(financiadores.all[, 1]), ]
+  # print tables
+  table.financiadores[, 1] <-
+    as.vector(unlist(lapply(table.financiadores[, 1], FUN = stringr::str_to_upper)))
+  table.financiadores[, 2] <-
+    as.vector(unlist(lapply(table.financiadores[, 2], FUN = stringr::str_to_sentence)))
+
+  # remove duplicated entries
+  table.financiadores <- table.financiadores[!duplicated(table.financiadores),]
+  
+  # select only outros auxílios
+  table.financiadores <- table.financiadores[table.financiadores$`Natureza do Financiador` != "Bolsa", ]
+  
+  colnames(table.financiadores) <-
+    c("Agência",
+      "Natureza",
+      "Início",
+      "Fim")
+  source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+  create_dt(table.financiadores, title = "Programa - Financiadores - Projetos de Pesquisa - Auxílios")
+} else {
+  cat('\n\n')
+  cat('*Sem produção para exibir no período*')
+  cat('\n\n')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+#### **Bolsas** {#bolsas}
+
+```{r financiadores-sucupira-pp-bolsas, eval = has.sucupira.files}
+# projetos - membros
+sheet <- "Projetos - Financiadores"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+periodos <- names(sucupira.list)
+financiadores.all <- do.call(rbind.data.frame, sucupira.list[periodos])
+financiadores.all <- unique(financiadores.all)
+
+if (dim(financiadores.all)[1] != 0) {
+  # dplyr::select data
+  table.financiadores <- dplyr::select(financiadores.all,
+                                      c("Nome do Financiador",
+                                        "Natureza do Financiador",
+                                        "Data Início Financiador",
+                                        "Data Fim Financiador"))
+  table.financiadores <- table.financiadores[order(financiadores.all[, 1]), ]
+  # print tables
+  table.financiadores[, 1] <-
+    as.vector(unlist(lapply(table.financiadores[, 1], FUN = stringr::str_to_upper)))
+  table.financiadores[, 2] <-
+    as.vector(unlist(lapply(table.financiadores[, 2], FUN = stringr::str_to_sentence)))
+
+  # remove duplicated entries
+  table.financiadores <- table.financiadores[!duplicated(table.financiadores),]
+  
+  # select only outros auxílios
+  table.financiadores <- table.financiadores[table.financiadores$`Natureza do Financiador` == "Bolsa", ]
+  
+  colnames(table.financiadores) <-
+    c("Agência",
+      "Natureza",
+      "Início",
+      "Fim")
+  source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+  create_dt(table.financiadores, title = "Programa - Financiadores - Projetos de Pesquisa - Bolsas")
+} else {
+  cat('\n\n')
+  cat('*Sem produção para exibir no período*')
+  cat('\n\n')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Trabalhos de conclusão de curso**
+
+```{r financiadores-sucupira-tcc, eval = has.sucupira.files}
+# projetos - membros
+sheet <- "TCC - Financiadores"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+periodos <- names(sucupira.list)
+financiadores.all <- do.call(rbind.data.frame, sucupira.list[periodos])
+financiadores.all <- unique(financiadores.all)
+
+if (dim(financiadores.all)[1] != 0) {
+  # dplyr::select data
+  table.financiadores <- dplyr::select(financiadores.all,
+                                      c("Nome do Financiador",
+                                        "Nome do Programa de Fomento",
+                                        "Data início da orientação",
+                                        "Data fim da orientação"))
+  table.financiadores <- table.financiadores[order(financiadores.all[, 1]), ]
+  # print tables
+  table.financiadores[, 1] <-
+    as.vector(unlist(lapply(table.financiadores[, 1], FUN = stringr::str_to_upper)))
+  table.financiadores[, 2] <-
+    as.vector(unlist(lapply(table.financiadores[, 2], FUN = stringr::str_to_sentence)))
+
+  # remove duplicated entries
+  table.financiadores <- table.financiadores[!duplicated(table.financiadores),]
+  
+  # remove empty rows
+  table.financiadores <- table.financiadores[!is.na(table.financiadores$`Nome do Financiador`),]
+  
+  colnames(table.financiadores) <-
+    c("Agência",
+      "Natureza",
+      "Início",
+      "Fim")
+  source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+  create_dt(table.financiadores, title = "Financiadores - Trabalhos de Conclusão de Curso")
+} else {
+  cat('\n\n')
+  cat('*Sem produção para exibir no período*')
+  cat('\n\n')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Detalhamento**
+
+```{r financiadores-ppg, eval = has.financiadores}
+financiadores.raw <-
+  readxl::read_excel("PPG/Financiadores.xlsx", sheet = "financiadores")
+
+financiadores.sub <-
+  financiadores.raw %>% dplyr::select("Ano",
+                               "Agência",
+                               "Edital",
+                               "Processo No.",
+                               "Título do projeto",
+                               "Programa")
+fonte.sub <- financiadores.raw %>% dplyr::select("Fonte")
+
+financiadores <-
+  financiadores.sub[complete.cases(financiadores.sub), ]
+fonte <- fonte.sub[complete.cases(financiadores.sub), ]
+
+if (dim(financiadores)[1] != 0) {
+  Abrir <- matrix(NA, nrow = dim(financiadores)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(fonte)[1])
+  {
+    if (!is.na(fonte[i, 1]))
+    {
+      Abrir[i] <-
+        paste0('<a href="',
+               fonte[i, 1],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  financiadores <- cbind(financiadores, Abrir)
+  financiadores <-
+    financiadores[order(financiadores$Ano, decreasing = TRUE), ]
+} else {
+  cat('\n\n')
+  cat('*Sem dados para exibir*')
+  cat('\n\n')
+}
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+try(create_dt(financiadores, title = "Programa - Financiadores - 2024-2021"),
+    silent = TRUE)
+
+cat('\n\n')
+cat(
+  "*Fontes:* [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
+)
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+## **Bolsas de estudo** {#bolsas .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.bolsas}
+cat('<br>')
+```
+
+```{r bolsas, eval = has.bolsas}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Bolsas.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  bolsas.raw <-
+    readxl::read_excel("PPG/Bolsas.xlsx",
+                       sheet = abas[j],
+                       col_types = c("text"))
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(bolsas.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(bolsas.raw)[1]) {
+    if (!is.na(bolsas.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               bolsas.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  bolsas.raw <- cbind(bolsas.raw[, -3], Abrir)
+  
+  # print table
+  if (dim(bolsas.raw)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(bolsas.raw, title = "Programa - Bolsas de estudo")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('\n\n')
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>

@@ -1,0 +1,2354 @@
+---
+title: Impactos
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    css:
+      - ./CSS/generic.css
+      - ./CSS/logo-above-toc.css
+      - ./CSS/main-color.css
+      - ./CSS/narrow-margins.css
+      - ./CSS/responsive.css
+---
+
+<!--install and/or load all R packages-->
+```{r setup, include = FALSE, echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', out.width = "100%", results = "hide"}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  results = "asis",
+  include = TRUE,
+  out.width = "100%",
+  knitr.kable.NA = '',
+  knitr.table.format = "html",
+  webshot = "webshot",
+  dev = "png"
+)
+```
+
+<!--script for inserting LOGO ABOVE THE TOC-->
+```{js}
+$(document).ready(function() {
+  $('#TOC').parent().prepend('<div id=\"nav_logo\"><img src="PPG/Images/logo-programa.png"></div>');
+  });
+```
+
+<!--script for sharing-->
+<p align="right">
+```{r share}
+home <- metadata$repository_url
+source("Scripts/social-media-sharing.R", local = knitr::knit_global())
+```
+</p>
+
+<!--script for generating ALTMETRIC badges-->
+<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+
+<!--script for generating multiple DIMENSIONS badges-->
+<script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+
+<!--script for generating multiple PLUMX badges-->
+<script type="text/javascript" src="//cdn.plu.mx/widget-all.js"></script>
+
+<br>
+
+```{r periodo-vigente, eval = has.sucupira.files, results = "hide"}
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+
+# periodo
+periodo.vigente <- anos
+```
+
+## **Impacto educacional** {#impacto-educacional}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.sucupira.files}
+cat('<br>')
+cat('<br>')
+```
+
+### **Formação discente** {.tabset}
+
+```{r turmas-tabela, eval = has.sucupira.files}
+# turmas
+sheet <- "Turmas"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+turmas.raw <- sucupira.raw
+
+# build a cross table DISCIPLINA vs. ANO
+turmas.raw <-
+  turmas.raw[turmas.raw$`Indicador de responsável principal` == "Sim", ]
+turmas.raw$`Período/Ano` <-
+  paste(
+    sub(".*/", "", turmas.raw$`Período/Ano`),
+    sub("/.*", "", turmas.raw$`Período/Ano`),
+    sep = "/"
+  )
+cross.table.turmas <-
+  as.matrix(table(turmas.raw$`Nível do curso`, turmas.raw$`Período/Ano`))
+
+# generate plot of total per year
+par(
+  oma = c(2, 0.1, 2, 0.1),
+  mar = c(5, 4, 2, 2)
+)
+# generate plot of turmas per year
+
+barplot(
+  cross.table.turmas,
+  las = 2,
+  ylab = "Turmas",
+  main = "Quantidade de turmas",
+  col = c("darkblue", "lightblue"),
+  beside = TRUE,
+  bty = "n"
+)
+legend(
+  "topleft",
+  legend = levels(as.factor(turmas.raw$`Nível do curso`)),
+  fill = c("darkblue", "lightblue"),
+  box.lty = 0
+)
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+## **Impacto científico** {#impacto-cientifico}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !any(has.periodicos, has.cep)}
+cat('<br>')
+cat('<br>')
+```
+
+### **Projetos de pesquisa**
+
+```{r impacto-projetos, eval = has.sucupira.files}
+# read each tab content
+sheet <- "Projetos"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get all years available
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+síntese.ano <- c()
+# loop for every available year
+for (i in 1:length(anos)) {
+  # get síntese anual
+  source("Scripts/síntese-sucupira.R", local = knitr::knit_global())
+  síntese.ano <-
+    dplyr::bind_rows(síntese.ano,
+          sintese(
+            sucupira.list = sucupira.list,
+            ano = anos[i]
+          ))
+}
+
+# Data selection
+síntese.ano <- síntese.ano %>%
+  dplyr::select(c(
+    "Ano",
+    "Áreas de concentração",
+    "Linhas de pesquisa",
+    "Projetos de pesquisa"
+    ))
+
+# generate table (total by year)
+table.1.1.1 <-
+  gtsummary::tbl_summary(
+    síntese.ano,
+    by = "Ano",
+    type = list(
+      "Áreas de concentração" ~ "continuous",
+      "Linhas de pesquisa" ~ "continuous",
+      "Projetos de pesquisa" ~ "continuous"),
+    statistic = list(
+      gtsummary::all_continuous() ~ c("{max}")),
+    missing = "no",
+    digits = list(everything() ~ 0)) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(gtsummary::all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels()
+
+# print table
+print(table.1.1.1)
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Produção do Programa**
+
+```{r 3-1-2-data, eval = has.sucupira.files}
+# Produções - Detalhes
+sheet <- "Produções - Detalhes"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# get data for the current period
+sucupira <- sucupira.list[as.character(periodo.vigente)] %>%
+  plyr::compact()
+for(i in 1:length(sucupira)){
+  sucupira[[i]] <- cbind(
+    "Anos" = rep(periodo.vigente[i], times = dim(sucupira[[i]])[1]),
+    sucupira[[i]]
+  )
+}
+sucupira.df <- data.frame(do.call(dplyr::bind_rows, sucupira))
+names(sucupira.df) <-
+  names(sucupira[[as.character(max(as.numeric(periodo.vigente)))]])
+
+sucupira.df <-
+  sucupira.df %>% dplyr::select(
+    "Anos",
+    "Nome da Produção",
+    "Produção vinculada a TCC concluído",
+    "Tipo de Produção",
+    "Subtipo de Produção",
+    "Área de Concentração",
+    "Linha de Pesquisa",
+    "Projeto",
+    "Categoria do Autor Principal"
+  )
+```
+
+```{r 3-1-2-ac, eval = has.sucupira.files}
+table.ac <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`)),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.ac) <- NULL
+table.ac <- cbind(unique(sucupira.df$`Nome da Produção`), table.ac)
+colnames(table.ac) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.ac)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.ac[i, j + 1] <-
+      try(
+        data$`Área de Concentração`[match(table.ac$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.ac.long <-
+  tidyr::gather(table.ac[, -1],
+                "Ano",
+                "Área de Concentração",
+                colnames(table.ac)[-1],
+                factor_key = TRUE)
+
+table.ac.long <- rbind(
+  table.ac.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.ac)[1]),
+    "Área de Concentração" = rep("Produção", times = dim(table.ac)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.ac.long) <- c("Ano", "Produção por Área de Concentração")
+
+# print tables
+table.ac.gt <-
+  gtsummary::tbl_summary(
+    table.ac.long,
+    by = "Ano",
+    statistic = list(gtsummary::all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = gtsummary::everything() ~ 0,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(gtsummary::all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = gtsummary::all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  gtsummary::remove_row_type(
+    variables = c('Produção por Área de Concentração'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  gtsummary::modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-lp, eval = has.sucupira.files}
+table.lp <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`)),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.lp) <- NULL
+table.lp <- cbind(unique(sucupira.df$`Nome da Produção`), table.lp)
+colnames(table.lp) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.lp)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.lp[i, j + 1] <-
+      try(
+        data$`Linha de Pesquisa`[match(table.lp$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.lp.long <-
+  tidyr::gather(table.lp[, -1],
+                "Ano",
+                "Linha de Pesquisa",
+                colnames(table.lp)[-1],
+                factor_key = TRUE)
+
+table.lp.long <- rbind(
+  table.lp.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.lp)[1]),
+    "Linha de Pesquisa" = rep("Produção", times = dim(table.lp)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.lp.long) <- c("Ano", "Produção por Linha de Pesquisa")
+
+# print tables
+table.lp.gt <-
+  gtsummary::tbl_summary(
+    table.lp.long,
+    by = "Ano",
+    statistic = list(all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = everything() ~ 0,
+    sort = all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  remove_row_type(
+    variables = c('Produção por Linha de Pesquisa'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-producao, eval = has.sucupira.files}
+table.prd <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`)),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.prd) <- NULL
+table.prd <- cbind(unique(sucupira.df$`Nome da Produção`), table.prd)
+colnames(table.prd) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.prd)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.prd[i, j + 1] <-
+      try(
+        data$`Tipo de Produção`[match(table.prd$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.prd.long <-
+  tidyr::gather(table.prd[, -1],
+                "Ano",
+                "Nome da Produção",
+                colnames(table.prd)[-1],
+                factor_key = TRUE)
+
+table.prd.long <- rbind(
+  table.prd.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.prd)[1]),
+    "Nome da Produção" = rep("Produção", times = dim(table.prd)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.prd.long) <- c("Ano", "Produção por tipo")
+
+# print tables
+table.prd.gt <-
+  gtsummary::tbl_summary(
+    table.prd.long,
+    by = "Ano",
+    statistic = list(gtsummary::all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = gtsummary::everything() ~ 0,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(gtsummary::all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = gtsummary::all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  gtsummary::remove_row_type(
+    variables = c('Produção por tipo'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  gtsummary::modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-autor, eval = has.sucupira.files}
+table.aut <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`)),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.aut) <- NULL
+table.aut <- cbind(unique(sucupira.df$`Nome da Produção`), table.aut)
+colnames(table.aut) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.aut)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.aut[i, j + 1] <-
+      try(
+        data$`Categoria do Autor Principal`[match(table.aut$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.aut.long <-
+  tidyr::gather(table.aut[, -1],
+                "Ano",
+                "Categoria do Autor Principal",
+                colnames(table.aut)[-1],
+                factor_key = TRUE)
+
+table.aut.long <- rbind(
+  table.aut.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.aut)[1]),
+    "Categoria do Autor Principal" = rep("Produção", times = dim(table.aut)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.aut.long) <- c("Ano", "Categoria do Autor Principal")
+
+# print tables
+table.aut.gt <-
+  gtsummary::tbl_summary(
+    table.aut.long,
+    by = "Ano",
+    statistic = list(gtsummary::all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = gtsummary::everything() ~ 0,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(gtsummary::all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = gtsummary::all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  gtsummary::remove_row_type(
+    variables = c('Categoria do Autor Principal'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  gtsummary::modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-tcc, eval = has.sucupira.files}
+table.tcc <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`)),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.tcc) <- NULL
+table.tcc <- cbind(unique(sucupira.df$`Nome da Produção`), table.tcc)
+colnames(table.tcc) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.tcc)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.tcc[i, j + 1] <-
+      try(
+        data$`Produção vinculada a TCC concluído`[match(table.tcc$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.tcc.long <-
+  tidyr::gather(table.tcc[, -1],
+                "Ano",
+                "Produção vinculada a TCC concluído",
+                colnames(table.tcc)[-1],
+                factor_key = TRUE)
+
+table.tcc.long <- rbind(
+  table.tcc.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.tcc)[1]),
+    "Produção vinculada a TCC concluído" = rep("Produção", times = dim(table.tcc)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.tcc.long) <- c("Ano", "Produção vinculada a TCC concluído")
+
+# print tables
+table.tcc.gt <-
+  gtsummary::tbl_summary(
+    table.tcc.long,
+    by = "Ano",
+    statistic = list(gtsummary::all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = gtsummary::everything() ~ 0,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(gtsummary::all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = gtsummary::all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  gtsummary::remove_row_type(
+    variables = c('Produção vinculada a TCC concluído'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  gtsummary::modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-bibliografica, eval = has.sucupira.files}
+table.bib <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`[sucupira.df$`Tipo de Produção` == "BIBLIOGRÁFICA"])),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.bib) <- NULL
+table.bib <- cbind(unique(sucupira.df$`Nome da Produção`[sucupira.df$`Tipo de Produção` == "BIBLIOGRÁFICA"]), table.bib)
+colnames(table.bib) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.bib)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.bib[i, j + 1] <-
+      try(
+        data$`Subtipo de Produção`[match(table.bib$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.bib.long <-
+  tidyr::gather(table.bib[, -1],
+                "Ano",
+                "Subtipo de Produção",
+                colnames(table.bib)[-1],
+                factor_key = TRUE)
+
+table.bib.long <- rbind(
+  table.bib.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.bib)[1]),
+    "Subtipo de Produção" = rep("Produção", times = dim(table.bib)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.bib.long) <- c("Ano", "Produção bibliográfica")
+
+# print tables
+table.bib.gt <-
+  gtsummary::tbl_summary(
+    table.bib.long,
+    by = "Ano",
+    statistic = list(gtsummary::all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = gtsummary::everything() ~ 0,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(gtsummary::all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = gtsummary::all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  gtsummary::remove_row_type(
+    variables = c('Produção bibliográfica'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  gtsummary::modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-tecnica, eval = has.sucupira.files}
+table.tec <-
+  data.frame(matrix(
+    NA,
+    nrow = length(unique(sucupira.df$`Nome da Produção`[sucupira.df$`Tipo de Produção` == "TÉCNICA"])),
+    ncol = length(periodo.vigente)
+  ))
+rownames(table.tec) <- NULL
+table.tec <- cbind(unique(sucupira.df$`Nome da Produção`[sucupira.df$`Tipo de Produção` == "TÉCNICA"]), table.tec)
+colnames(table.tec) <-
+  c("Nome da Produção", as.character(periodo.vigente))
+for (i in 1:dim(table.tec)[1]) {
+  for (j in 1:length(periodo.vigente)) {
+    data <- sucupira.df[sucupira.df$Anos == periodo.vigente[j], ]
+    table.tec[i, j + 1] <-
+      try(
+        data$`Subtipo de Produção`[match(table.tec$`Nome da Produção`[i],data$`Nome da Produção`)]
+          , silent = TRUE)
+  }
+}
+
+table.tec.long <-
+  tidyr::gather(table.tec[, -1],
+                "Ano",
+                "Subtipo de Produção",
+                colnames(table.tec)[-1],
+                factor_key = TRUE)
+
+table.tec.long <- rbind(
+  table.tec.long,
+  data.frame(
+    "Ano" = rep(paste0(
+      min(periodo.vigente), "-", max(periodo.vigente)
+    ), times = dim(table.tec)[1]),
+    "Subtipo de Produção" = rep("Produção", times = dim(table.tec)[1]),
+    check.names = FALSE
+  )
+)
+
+my_N <- function(data, ...) {
+  gtsummary::style_number(sum(data == "Produção", na.rm = TRUE), digits = 0)
+}
+
+colnames(table.tec.long) <- c("Ano", "Produção técnica")
+
+# print tables
+table.tec.gt <-
+  gtsummary::tbl_summary(
+    table.tec.long,
+    by = "Ano",
+    statistic = list(gtsummary::all_categorical() ~ "{n}"),
+    missing = "no",
+    digits = gtsummary::everything() ~ 0,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::modify_header(label = "Ano", gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(all_stat_cols() ~ NA) %>%
+  gtsummary::bold_labels() %>%
+  gtsummary::add_stat(fns = all_categorical() ~ my_N) %>%
+  gtsummary::modify_header(list(
+    add_stat_1 ~ "**N (Período)**",
+    gtsummary::all_stat_cols() ~ "**{level}**"
+  )) %>%
+  gtsummary::remove_row_type(
+    variables = c('Produção técnica'),
+    type = "level",
+    level_value = ("Produção")
+  ) %>%
+  gtsummary::modify_column_hide(columns = paste0("stat_", as.character(length(periodo.vigente) + 1)))
+```
+
+```{r 3-1-2-list-tables, eval = has.sucupira.files}
+# list all tables
+table.all <-
+  list(table.ac.gt,
+       table.lp.gt,
+       table.prd.gt,
+       table.aut.gt,
+       table.tcc.gt,
+       table.bib.gt,
+       table.tec.gt
+  )
+
+# drop empty elements from list
+table.all <- table.all[lapply(table.all, length) > 0]
+
+# print all tables stacked
+print(gtsummary::tbl_stack(table.all))
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Métricas**
+
+```{r impacto-metricas, eval = any(has.producao.ppg, has.producao.sucupira)}
+síntese.ano <- dplyr::bind_cols(
+      Ano = as.numeric(doi_all$published_on),
+      CiteScore = as.numeric(doi_all$CiteScore),
+      SJR = as.numeric(doi_all$SJR),
+      WebQualis = factor(doi_all$WebQualis)
+          )
+
+# Data selection
+síntese.ano <- síntese.ano %>%
+  dplyr::select(c(
+    "Ano",
+    "CiteScore",
+    "SJR",
+    "WebQualis"
+    ))
+
+# filter data in quadrineal.vigente
+síntese.ano <- síntese.ano %>%
+  dplyr::filter(
+    Ano >= min(periodo.vigente) &
+    Ano <= max(periodo.vigente)
+    )
+
+# generate table (total by year)
+table.3.2.1 <-
+  gtsummary::tbl_summary(
+    síntese.ano,
+    by = "Ano",
+    type = list(
+      "CiteScore" ~ "continuous",
+      "SJR" ~ "continuous",
+      "WebQualis" ~ "categorical"),
+    statistic = list(
+      all_continuous() ~ "{median} ({p25}, {p75})",
+      all_categorical() ~ "{n} ({p}%)"
+      ),
+    missing = "no",
+    digits = list(
+      gtsummary::all_continuous() ~ 2,
+      gtsummary::all_categorical() ~ 0
+      ),
+    ) %>%
+  gtsummary::modify_header(
+    label = "**Ano**",
+    gtsummary::all_stat_cols() ~ "**{level}**") %>%
+  gtsummary::modify_footnote(
+    tidyselect::everything() ~ NA) %>%
+  gtsummary::bold_labels()
+
+# print table
+print(table.3.2.1)
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Velocidade**
+
+*Em construção*
+
+<a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a>
+
+<br>
+
+### **Alcance**
+
+*Em construção*
+
+<a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a>
+
+<br>
+
+### **Conteúdo**
+
+*Em construção*
+
+<a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a>
+
+<br>
+
+### **Periódicos institucionais**
+
+```{r periodicos-institucionais, eval = has.periodicos}
+# read separate sheets
+periodicos.raw <-
+  readxl::read_excel(
+    "PPG/Periódicos institucionais.xlsx",
+    sheet = "Periódicos",
+    col_types = c("text")
+  )
+
+Abrir <- matrix(NA, nrow = dim(periodicos.raw)[1])
+colnames(Abrir) <- "Abrir"
+# add hyperlinks
+for (i in 1:dim(periodicos.raw)[1]) {
+  if (!is.na(periodicos.raw[i, 3])) {
+    Abrir[i] <-
+      paste0('<a href="',
+             periodicos.raw[i, 3],
+             '" target="_blank"',
+             '>',
+             # fontawesome icon
+             fontawesome::fa("up-right-from-square"),
+             '</a>')
+  }
+}
+
+periodicos <- cbind(periodicos.raw[, -3], Abrir)
+
+# add metrics
+source(file.path("Scripts", "get_citescore.R"), local = knitr::knit_global())
+source(file.path("Scripts", "get_sjr.R"), local = knitr::knit_global())
+source(file.path("Scripts", "get_webqualis.R"), local = knitr::knit_global())
+periodicos$WebQualis <- rep('-', dim(periodicos)[1])
+periodicos$SJR <- rep('-', dim(periodicos)[1])
+periodicos$CiteScore <- rep('-', dim(periodicos)[1])
+periodicos.df <- data.frame(
+  'issns' = periodicos$ISSN,
+  'issn' = periodicos$ISSN,
+  'journal' = periodicos$Nome
+)
+
+for (i in 1:dim(periodicos)[1]) {
+  periodicos$WebQualis[i] <-
+    get_webqualis(
+      qualis = qualis,
+      scimago = scimago,
+      doi_with_altmetric = periodicos.df[i, ]
+    )$WebQualis_value
+  periodicos$SJR[i] <-
+    get_sjr(scimago = scimago, doi_with_altmetric = periodicos.df[i, ])$SJR_value
+  periodicos$CiteScore[i] <-
+    get_citescore(citescore = citescore, doi_with_altmetric = periodicos.df[i, ])$citescore_value
+}
+
+# print table
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(periodicos, title = "Impactos - Períódicos institucionais")
+
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+### **Comitê de Ética em Pesquisa** {#cep .tabset}
+
+#### **CEP**
+
+<center>
+
+```{r logo-ies, eval = has.cep}
+if(file.exists("PPG/Images/logo-cep.png") &
+   has.cep) {
+  # read separate sheets
+  link <-
+    readxl::read_excel("PPG/Comitê de Ética em Pesquisa.xlsx",
+                       sheet = "CEP",
+                       col_types = c("text"))[[1]]
+  cat('[<img src=\"PPG/Images/logo-cep.png\" align=\"center\"/>](', link, ')')
+}
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+</center>
+
+<br>
+
+#### **Documentos vigentes**
+
+```{r cep-vigentes, eval = has.cep}
+# read separate sheets
+cep.vigentes.raw <-
+  readxl::read_excel("PPG/Comitê de Ética em Pesquisa.xlsx",
+                     sheet = "Vigentes",
+                     col_types = c("text"))
+
+Abrir <- matrix(NA, nrow = dim(cep.vigentes.raw)[1])
+colnames(Abrir) <- "Abrir"
+# add hyperlinks
+for (i in 1:dim(cep.vigentes.raw)[1]) {
+  if (!is.na(cep.vigentes.raw[i, 3])) {
+    Abrir[i] <-
+      paste0('<a href="',
+             cep.vigentes.raw[i, 3],
+             '" target="_blank"',
+             '>',
+             # fontawesome icon
+             fontawesome::fa("up-right-from-square"),
+             '</a>')
+  }
+}
+
+cep.vigentes <- cbind(cep.vigentes.raw[, -3], Abrir)
+
+# print table
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(cep.vigentes, title = "Impactos - Comitê de Ética em Pesquisa - Documentos vigentes")
+
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+#### **Documentos revogados**
+
+```{r cep-revogados, eval = has.cep}
+# read separate sheets
+cep.revogados.raw <-
+  readxl::read_excel("PPG/Comitê de Ética em Pesquisa.xlsx",
+                     sheet = "Revogados",
+                     col_types = c("text"))
+
+Abrir <- matrix(NA, nrow = dim(cep.revogados.raw)[1])
+colnames(Abrir) <- "Abrir"
+# add hyperlinks
+for (i in 1:dim(cep.revogados.raw)[1]) {
+  if (!is.na(cep.revogados.raw[i, 3])) {
+    Abrir[i] <-
+      paste0('<a href="',
+             cep.revogados.raw[i, 3],
+             '" target="_blank"',
+             '>',
+             # fontawesome icon
+             fontawesome::fa("up-right-from-square"),
+             '</a>')
+  }
+}
+
+cep.revogados <- cbind(cep.revogados.raw[, -3], Abrir)
+
+# print table
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(cep.revogados, title = "Impactos - Comitê de Ética em Pesquisa - Documentos revogados")
+  
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+## **Impacto sociocultural** {#impacto-sociocultural}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.politicas}
+cat('<br>')
+cat('<br>')
+```
+
+### **Políticas** {#politicas .tabset}
+
+#### **Tabela**
+
+```{r politicas-sintese, eval = has.impacto.sage.files}
+# list all Sage Profiles
+files.to.read <-
+  list.files(file.path(getwd(), "Impacto", "Sage Policy Profiles"),
+            full.names = TRUE,
+            recursive = FALSE)
+
+# column bind all into a single dataframe
+sage.profiles.raw <- data.frame()
+for (i in 1:length(files.to.read)) {
+  sage.profiles.raw <-
+    rbind(sage.profiles.raw,
+          read.csv2(files.to.read[i],
+                    header = TRUE,
+                    sep = ",",
+                    stringsAsFactors = FALSE))
+}
+
+# remove duplicates
+sage.profiles.raw  <-
+  sage.profiles.raw[!duplicated(sage.profiles.raw$Policy.Document.ID), ]
+
+# select columns
+sage.profiles <- dplyr::select(sage.profiles.raw,
+                               c("Published.on",
+                                 "Title",
+                                 "Source.title",
+                                 "Document.URL",
+                                 "Source.country",
+                                 "Source.type",
+                                 "Cited.research.titles",
+                                 "Cited.research.DOIs"
+                                 ))
+
+# format Published.on as year
+sage.profiles$Published.on <-
+  format(as.Date(sage.profiles$Published.on, "%Y-%m-%d"), "%Y")
+
+# use title case
+sage.profiles$Source.title <-
+  tools::toTitleCase(sage.profiles$Source.title)
+sage.profiles$Source.type <-
+  tools::toTitleCase(sage.profiles$Source.type)
+
+# format link of Source.title using Document.URL and drop the latter column
+sage.profiles$Source.title <-
+  paste0('<a href="',
+         sage.profiles$Document.URL,
+         '" target="_blank"',
+         '>',
+         sage.profiles$Source.title,
+         '</a>')
+
+# loop for all entries to bind Cited.research.titles with respective Cited.research.DOIs
+bib.data.out <- c()
+for (i in 1:nrow(sage.profiles)) {
+  bib.data.in <- c()
+  dois.data <-
+    stringr::str_split_1(string = sage.profiles$Cited.research.DOIs[i],
+                         pattern = "  ，")
+  # try to retrieve data from the cache file
+  for (j in 1:length(dois.data)) {
+    indexes <- match(tolower(dois.data[j]), tolower(doi_all$doi))
+    if(sjmisc::is_empty(indexes)){
+      bib.data.in <- NA
+    } else {
+    bib.data.in <-
+        paste0(
+          bib.data.in,
+          ifelse(length(bib.data.in) > 1, "\n\n", ""),
+          doi_all$author.names[indexes[j]],
+          ". ",
+          "(", doi_all$published_on[indexes[j]], ")",
+          ". ",
+          "<strong>", doi_all$title[indexes[j]],"</strong>", 
+          ". ",
+          "<i>", doi_all$journal[indexes[j]], "</i>", 
+          ". ",
+          paste0(
+            '<a href="https://doi.org/',
+            doi_all$doi[indexes[j]],
+            '" target="_blank"',
+            '>',
+            doi_all$doi[indexes[j]],
+            '</a>'
+          )
+        )
+    }
+  }
+  bib.data.out <- c(bib.data.out, bib.data.in)
+}
+sage.profiles$Fontes <- bib.data.out
+
+# drop columns
+sage.profiles$Document.URL <- NULL
+sage.profiles$Cited.research.titles <- NULL
+sage.profiles$Cited.research.DOIs <- NULL
+
+# rename columns
+colnames(sage.profiles) <- c("Ano",
+                             "Título",
+                             "Fonte (URL)",
+                             "País",
+                             "Tipo",
+                             "Pesquisas citadas (DOI)")
+
+# keep complete cases only
+sage.profiles <-
+  sage.profiles[complete.cases(sage.profiles), ]
+sage.profiles.raw <-
+  sage.profiles.raw[complete.cases(sage.profiles), ]
+
+# sort by year decreasing
+sage.profiles <-
+  sage.profiles[order(sage.profiles$Ano, decreasing = TRUE), ]
+sage.profiles.raw <-
+  sage.profiles.raw[order(sage.profiles$Ano, decreasing = TRUE), ]
+
+# create DT table
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(sage.profiles, title = "Impactos - Produção citada em diretrizes e políticas")
+
+cat('\n\n')
+cat(
+  "Fonte: [**SAGE Profile Policies**](https://www.socialsciencespace.com/sagepolicyprofiles/)"
+)
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+#### **Gráficos**
+
+```{r politicas-graficos, eval = has.impacto.sage.files}
+cross.table.politicas <-
+  as.matrix(table(format(as.Date(sage.profiles.raw$Published.on, "%Y-%m-%d"), "%Y")))
+colnames(cross.table.politicas) <- "Quantidade"
+
+# generate plot of total per year
+par(
+  oma = c(2, 0.1, 2, 0.1),
+  mar = c(5, 4, 2, 2)
+)
+# generate plot of turmas per year
+
+barplot(
+  cross.table.politicas,
+  las = 2,
+  ylab = "Políticas",
+  main = "Quantidade de documentos",
+  col = c("darkblue"),
+  beside = TRUE,
+  bty = "n"
+)
+axis(1, at = 1:length(cross.table.politicas), labels = rownames(cross.table.politicas), las = 2)
+
+cat('\n\n')
+cat(
+  "Fonte: [**SAGE Profile Policies**](https://www.socialsciencespace.com/sagepolicyprofiles/)"
+)
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+```{r politicas-docentes, eval = has.politicas}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Políticas.xlsx")
+
+# display each sheet in a tab
+for (i in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('#### **', abas[i], '**'))
+  cat('\n\n<!-- -->\n\n')
+  agendas <-
+    readxl::read_excel("PPG/Políticas.xlsx",
+               sheet = abas[i],
+               col_types = c("text"))
+  
+  cat(
+    paste0(
+      '<iframe src="',
+      agendas[1],
+      '" style=\"width:100%; height:600px; border:2px solid black;"></iframe>'
+    )
+  )
+  
+  cat('\n\n')
+  
+  cat(
+    "Fonte: [**SAGE Profile Policies**](https://www.socialsciencespace.com/sagepolicyprofiles/)"
+  )
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
+
+## **Impacto tecnológico/econômico** {#impacto-tecnologico-economico}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !has.financiadores}
+cat('<br>')
+cat('<br>')
+```
+
+### **Agência-Edital**
+
+```{r auto-financiadores-agencia-programa, eval = has.financiadores}
+financiadores.raw <-
+  readxl::read_excel("PPG/Financiadores.xlsx", sheet = "financiadores")
+
+options(scipen = 10)
+
+# dplyr::select variables to display, by AGENCIA & PROGRAMA
+financiadores <-
+  financiadores.raw %>% dplyr::select("Agência", "Programa")
+
+# drop rows with empty cells
+financiadores <-
+  financiadores[complete.cases(financiadores),]
+
+# generate table (total per edital, per agency)
+table.1 <-
+  gtsummary::tbl_summary(
+    financiadores,
+    by = "Agência",
+    statistic = gtsummary::all_categorical() ~ c("{n}"),
+    missing = "no",
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::add_overall(last = TRUE,
+              col_label = "Total") %>%
+  gtsummary::modify_header(label = "**Agência**") %>%
+  gtsummary::modify_footnote(update = gtsummary::everything() ~ NA) %>%
+  gtsummary::bold_labels()
+# print table
+print(table.1)
+
+cat('\n\n')
+
+cat(
+  "*Fontes:* [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
+)
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+### **Agência-Ano**
+
+```{r auto-financiadores-agencia-ano, eval = has.financiadores}
+financiadores.raw <-
+  readxl::read_excel("PPG/Financiadores.xlsx", sheet = "financiadores")
+
+options(scipen = 10)
+
+financiadores.raw <-
+  readxl::read_excel("PPG/Financiadores.xlsx", sheet = "financiadores")
+
+# dplyr::select variables to display, by AGENCIA & ANO
+financiadores <-
+  financiadores.raw %>% dplyr::select("Ano", "Agência", "Total")
+
+# drop rows with empty cells
+financiadores <- financiadores[complete.cases(financiadores),]
+
+financiadores <-
+  financiadores[order(financiadores$Ano, decreasing = TRUE),]
+financiadores$Ano <- as.factor(financiadores$Ano)
+
+# generate table (total per year, per agency)
+table.2 <-
+  gtsummary::tbl_summary(
+    financiadores,
+    by = "Agência",
+    type = list(gtsummary::all_continuous() ~ "continuous"),
+    statistic = list(gtsummary::all_continuous() ~ c("R$ {sum}")),
+    missing = "no",
+    digits = "Total" ~ 2
+  ) %>%
+  gtsummary::add_overall(last = TRUE,
+              col_label = "Total") %>%
+  gtsummary::modify_header(label = "**Agência**") %>%
+  gtsummary::modify_footnote(update = everything() ~ NA) %>%
+  gtsummary::bold_labels()
+# print table
+print(table.2)
+
+cat('\n\n')
+
+cat(
+  "*Fontes:* [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
+)
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+### **Edital-Ano**
+
+```{r auto-financiadores-docente-programa, eval = has.financiadores}
+options(scipen = 10)
+
+financiadores.raw <-
+  readxl::read_excel("PPG/Financiadores.xlsx", sheet = "financiadores")
+
+# dplyr::select variables to display, by AGENCIA & ANO
+financiadores <-
+  financiadores.raw %>% dplyr::select("Ano", "Programa", "Total")
+
+# drop rows with empty cells
+financiadores <- financiadores[complete.cases(financiadores),]
+
+financiadores <-
+  financiadores[order(financiadores$Programa, decreasing = TRUE),]
+
+# generate table (total per year, per docente)
+table.2 <-
+  gtsummary::tbl_summary(
+    financiadores,
+    by = "Programa",
+    type = list(gtsummary::all_continuous() ~ "continuous"),
+    statistic = list(gtsummary::all_continuous() ~ c("R$ {sum}")),
+    missing = "no",
+    digits = "Total" ~ 2,
+    sort = gtsummary::all_categorical() ~ "frequency"
+  ) %>%
+  gtsummary::add_overall(last = TRUE,
+              col_label = "Total") %>%
+  gtsummary::modify_header(label = "**Programa**") %>%
+  gtsummary::modify_footnote(update = everything() ~ NA) %>%
+  gtsummary::bold_labels()
+# print table
+print(table.2)
+
+cat('\n\n')
+cat(
+  "*Fontes:* [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
+)
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+## **Ações durante a pandemia** {#acoes-pandemia}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r, eval = !any(has.artigos.completos.ppg, has.artigos.completos.sucupira)}
+cat('<br>')
+```
+
+```{r pandemia-termos}
+pandemia <-
+  c(
+    "19nCoV",
+    "2019 Novel Coronavirus",
+    "2019-nCoV",
+    "2019 nCoV",
+    "coronavirus disease 2019",
+    "Coronavirus Disease 2019",
+    "Coronavirus Disease 2019",
+    "COVID -19",
+    "COVID 19",
+    "COVID 2019",
+    "COVID longa",
+    "COVID- 19",
+    "COVID-19",
+    "COVID-2019",
+    "COVID",
+    "COVID19",
+    "COVID2019",
+    "doenca do coronavirus 2019",
+    "doença do coronavirus 2019",
+    "doenca do novo coronavirus 2019",
+    "doença do novo coronavirus 2019",
+    "doenca do novo coronavirus",
+    "doença do novo coronavirus",
+    "long COVID",
+    "nCoV",
+    "New Coronavirus",
+    "Novo Coronavirus",
+    "pós - COVID",
+    "pós- COVID",
+    "pós -COVID",
+    "pós COVID",
+    "pós-COVID",
+    "pós-COVID-19",
+    "post - COVID",
+    "post- COVID",
+    "post -COVID",
+    "post COVID",
+    "post-COVID",
+    "post-COVID-19",
+    "postCOVID",
+    "SARS coronavirus 2",
+    "SARS Coronavirus 2",
+    "SARS CoV 2",
+    "SARS COV 2",
+    "SARS-CoV-2",
+    "SARS-COV-2",
+    "SARS-CoV2",
+    "SARS-COV2",
+    "SARSCoV-2",
+    "SARSCOV-2",
+    "SARSCoV2",
+    "SARSCOV2",
+    "severe acute respiratory syndrome coronavirus 2",
+    "Severe Acute Respiratory Syndrome Coronavirus 2",
+    "síndrome respiratória aguda grave",
+    "pandemic",
+    "pandemics",
+    "pandemia"
+  )
+```
+
+```{r pandemia-filtro-completos, eval = any(has.artigos.completos.ppg, has.artigos.completos.sucupira)}
+# dplyr::selecting those with COVID in the title
+try(doi_with_altmetric_artigos_impacto <-
+      doi_with_altmetric_artigos[grep(paste(tolower(pandemia), collapse = "|"),
+                              tolower(doi_with_altmetric_artigos$title)), ], silent = TRUE)
+try(doi_without_altmetric_artigos_impacto <-
+      doi_without_altmetric_artigos[grep(paste(tolower(pandemia), collapse = "|"),
+                                 tolower(doi_without_altmetric_artigos$title)), ],
+    silent = TRUE)
+try(references_artigos_impacto <-
+      references_artigos[grep(paste(tolower(pandemia), collapse = "|"), tolower(references_artigos[, 2])), ], silent = TRUE
+)
+```
+
+```{r pandemia-filtro-resumos, eval = any(has.artigos.resumos.ppg, has.artigos.resumos.sucupira)}
+# dplyr::selecting those with COVID in the title
+try(doi_with_altmetric_resumos_impacto <-
+      doi_with_altmetric_resumos[grep(paste(tolower(pandemia), collapse = "|"),
+                              tolower(doi_with_altmetric_resumos$title)),], silent = TRUE)
+try(doi_without_altmetric_resumos_impacto <-
+      doi_without_altmetric_resumos[grep(paste(tolower(pandemia), collapse = "|"),
+                                 tolower(doi_without_altmetric_resumos$title)),],
+    silent = TRUE)
+try(references_resumos_impacto <-
+      references_resumos[grep(paste(tolower(pandemia), collapse = "|"), tolower(references_resumos)[, 2]),]
+    , silent = TRUE
+)
+```
+
+```{r pandemia-filtro-preprints, eval = has.preprints.ppg}
+# dplyr::selecting those with COVID in the title
+try(doi_with_altmetric_preprints_impacto <-
+      doi_with_altmetric_preprints[grep(paste(tolower(pandemia), collapse = "|"),
+                                tolower(doi_with_altmetric_preprints$title)),],
+    silent = TRUE)
+try(doi_without_altmetric_preprints_impacto <-
+      doi_without_altmetric_preprints[grep(paste(tolower(pandemia), collapse = "|"),
+                                   tolower(doi_without_altmetric_preprints$title)),],
+    silent = TRUE)
+try(references_preprints_impacto <-
+      references_preprints[grep(paste(tolower(pandemia), collapse = "|"),
+                                tolower(references_preprints)[, 2]),],
+    silent = TRUE
+)
+```
+
+```{r pandemia-filtro-livros, eval = has.livros.ppg}
+# dplyr::selecting those with COVID in the title
+try(doi_with_altmetric_livros_impacto <-
+      doi_with_altmetric_livros[grep(paste(tolower(pandemia), collapse = "|"),
+                             tolower(doi_with_altmetric_livros$title)), ], silent = TRUE)
+try(doi_without_altmetric_livros_impacto <-
+      doi_without_altmetric_livros[grep(paste(tolower(pandemia), collapse = "|"),
+                                tolower(doi_without_altmetric_livros$title)), ],
+    silent = TRUE)
+try(references_livros_impacto <-
+      references_livros[grep(paste(tolower(pandemia), collapse = "|"), tolower(references_livros)[, 2]), ], silent = TRUE
+)
+```
+
+```{r pandemia-filtro-capitulos, eval = has.capitulos.ppg}
+# dplyr::selecting those with COVID in the title
+try(doi_with_altmetric_capitulos_impacto <-
+      doi_with_altmetric_capitulos[grep(paste(tolower(pandemia), collapse = "|"),
+                                tolower(doi_with_altmetric_capitulos$title)), ],
+    silent = TRUE)
+try(doi_without_altmetric_capitulos_impacto <-
+      doi_without_altmetric_capitulos[grep(paste(tolower(pandemia), collapse = "|"),
+                                   tolower(doi_without_altmetric_capitulos$title)), ],
+    silent = TRUE)
+try(references_capitulos_impacto <-
+      references_capitulos[grep(paste(tolower(pandemia), collapse = "|"),
+                                tolower(references_capitulos)[, 2]), ],
+    silent = TRUE
+)
+```
+
+```{r pandemia-filtro-anais, eval = has.anais.ppg}
+# dplyr::selecting those with COVID in the title
+try(doi_with_altmetric_anais_impacto <-
+      doi_with_altmetric_anais[grep(paste(tolower(pandemia), collapse = "|"),
+                              tolower(doi_with_altmetric_anais$title)), ], silent = TRUE)
+try(doi_without_altmetric_anais_impacto <-
+      doi_without_altmetric_anais[grep(paste(tolower(pandemia), collapse = "|"),
+                                 tolower(doi_without_altmetric_anais$title)), ],
+    silent = TRUE)
+try(references_anais_impacto <-
+      references_anais[grep(paste(tolower(pandemia), collapse = "|"), tolower(references_anais)[, 2]), ], silent = TRUE
+)
+```
+
+<br>
+
+### **Projetos de pesquisa**
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-projetos, eval = has.sucupira.files}
+# projetos - membros
+sheet <- "Projetos - Membros"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+# get data from all Sucupira years available
+projetos.all <-
+  do.call(rbind.data.frame, sucupira.list)
+
+projetos.all <-
+  unique(projetos.all[projetos.all$`Membro Responsável` == "Sim",])
+
+# dplyr::selecting those with COVID in the title
+projetos <-
+  projetos.all[grep(paste(tolower(pandemia), collapse = "|"),
+                    tolower(projetos.all$`Nome do Projeto de Pesquisa`)),]
+
+if (dim(projetos)[1] != 0) {
+  table.projetos <-
+    data.frame(
+      projetos$`Área de Concentração`,
+      projetos$`Linha de Pesquisa`,
+      projetos$`Nome do Projeto de Pesquisa`,
+      projetos$`Nome do Membro do Projeto`,
+      projetos$`Data de Início`
+    )
+  table.projetos <- table.projetos[order(table.projetos[, 1]), ]
+  labels <- colnames(table.projetos)
+  # print tables
+  table.projetos[, 1] <-
+    as.vector(unlist(lapply(table.projetos[, 1], FUN = str_to_upper)))
+  table.projetos[, 2] <-
+    as.vector(unlist(lapply(table.projetos[, 2], FUN = str_to_sentence)))
+  table.projetos[, 3] <-
+    as.vector(unlist(lapply(table.projetos[, 3], FUN = str_to_title)))
+  
+  colnames(table.projetos) <-
+    c(
+      "Área de Concentração",
+      "Linha de Pesquisa",
+      "Projeto de Pesquisa",
+      "Membro Responsável",
+      "Início"
+    )
+  source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+  create_dt(table.projetos, title = "Impactos - Ações durante a Pandemia - Projetos de Pesquisa")
+} else {
+  cat('\n\n')
+  cat('*Sem produção para exibir no período*')
+  cat('\n\n')
+}
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Financiadores**
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-financiadores, eval = has.financiadores}
+financiadores.sub <-
+  financiadores.raw %>% dplyr::select("Ano",
+                                      "Agência",
+                                      "Edital",
+                                      "Processo No.",
+                                      "Título do projeto",
+                                      "Programa")
+fonte.sub <- financiadores.raw %>% dplyr::select("Fonte")
+
+financiadores <-
+  financiadores.sub[complete.cases(financiadores.sub),]
+fonte <- fonte.sub[complete.cases(financiadores.sub),]
+
+# dplyr::selecting those with COVID in the title
+financiadores <-
+  financiadores[grep(paste(tolower(pandemia), collapse = "|"),
+                     tolower(financiadores$`Título do projeto`)),]
+fonte <-
+  fonte[grep(paste(tolower(pandemia), collapse = "|"),
+             tolower(financiadores$`Título do projeto`)),]
+
+if (dim(financiadores)[1] != 0)
+{
+  Abrir <- matrix(NA, nrow = dim(financiadores)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(fonte)[1])
+  {
+    if (!is.na(fonte[i, 1]))
+    {
+      Abrir[i] <-
+        paste0('<a href="',
+               fonte[i, 1],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  
+  financiadores <- data.frame(financiadores, Abrir)
+  financiadores <-
+    financiadores[order(financiadores$Ano, decreasing = TRUE), ]
+} else {
+  cat('\n\n')
+  cat('*Sem dados para exibir*')
+  cat('\n\n')
+}
+cat('\n\n')
+
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+try(create_dt(financiadores, title = "Impactos - Ações durante a Pandemia - Financiadores"),
+    silent = TRUE)
+
+cat('\n\n')
+cat(
+  "*Fontes:* [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
+)
+cat('\n\n')
+cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+```
+
+<br>
+
+### **Tese**
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-tese, eval = has.sucupira.files}
+# tcc
+sheet <- "TCC - Financiadores"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+periodos <- names(sucupira.list)
+periodo <- as.character(seq(min(periodos), max(periodos), by = 1))
+tcc.all <- do.call(rbind.data.frame, sucupira.list[periodos])
+
+tcc.all <-
+  tcc.all[tcc.all$`Tipo de Trabalho de Conclusão` == "TESE",]
+
+# dplyr::selecting those with COVID in the title
+tcc <-
+  tcc.all[grep(paste(tolower(pandemia), collapse = "|"),
+               tolower(tcc.all$`Nome do Trabalho de Conclusão`)),]
+
+if (dim(tcc)[1] != 0) {
+  # select data
+  table.tcc <-
+    data.frame(
+      format((as.Date(
+        gsub("/", "-", tcc$'Data da Defesa'), "%d-%m-%Y"
+      )), "%Y"),
+      tcc$`Linha de Pesquisa`,
+      tcc$`Nome do Trabalho de Conclusão`,
+      tcc$`Nome do Autor`,
+      tcc$`Nome do Orientador`,
+      tcc$`Nome do Financiador`
+    )
+  
+  table.tcc <-
+    table.tcc[order(table.tcc[, 1], table.tcc[, 2], table.tcc[, 3]), ]
+  
+  table.tcc[, 2] <-
+    as.vector(unlist(lapply(table.tcc[, 2], FUN = stringr::str_to_title)))
+  table.tcc[, 3] <-
+    as.vector(unlist(lapply(table.tcc[, 3], FUN = stringr::str_to_title)))
+  table.tcc[, 4] <-
+    as.vector(unlist(lapply(table.tcc[, 4], FUN = stringr::str_to_title)))
+  table.tcc[, 5] <-
+    as.vector(unlist(lapply(table.tcc[, 5], FUN = stringr::str_to_title)))
+  table.tcc[, 6] <-
+    as.vector(unlist(lapply(table.tcc[, 6], FUN = stringr::str_to_title)))
+  
+  colnames(table.tcc) <-
+    c("Ano", "Linha de Pesquisa", "Título", "Autor", "Orientador", "Financiador")
+} else {
+  table.tcc <- data.frame()
+}
+
+# drop duplicated entries
+table.tcc <- table.tcc[!duplicated(table.tcc),]
+
+table.tcc <- table.tcc %>% dplyr::arrange(
+  dplyr::desc(table.tcc$'Ano'),
+  table.tcc$'Autor'
+)
+table.tcc <- table.tcc %>% dplyr::arrange(dplyr::desc(as.numeric(table.tcc$'Ano')),
+                                        table.tcc$'Título')
+# print table
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(table.tcc, title = "Impactos - Ações durante a Pandemia - Teses")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Dissertação**
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-dissertacao, eval = has.sucupira.files}
+# tcc
+sheet <- "TCC - Financiadores"
+source("Scripts/read-xlsx-sucupira.R", local = knitr::knit_global())
+
+# get years
+source("Scripts/years-sucupira.R", local = knitr::knit_global())
+names(sucupira.list) <- as.character(anos)
+
+periodos <- names(sucupira.list)
+periodo <- as.character(seq(min(periodos), max(periodos), by = 1))
+tcc.all <- do.call(rbind.data.frame, sucupira.list[periodos])
+
+tcc.all <-
+  tcc.all[tcc.all$`Tipo de Trabalho de Conclusão` == "DISSERTAÇÃO",]
+
+# dplyr::selecting those with COVID in the title
+tcc <-
+  tcc.all[grep(paste(tolower(pandemia), collapse = "|"),
+               tolower(tcc.all$`Nome do Trabalho de Conclusão`)),]
+
+if (dim(tcc)[1] != 0) {
+  # select data
+  table.tcc <-
+    data.frame(
+      format((as.Date(
+        gsub("/", "-", tcc$'Data da Defesa'), "%d-%m-%Y"
+      )), "%Y"),
+      tcc$`Linha de Pesquisa`,
+      tcc$`Nome do Trabalho de Conclusão`,
+      tcc$`Nome do Autor`,
+      tcc$`Nome do Orientador`,
+      tcc$`Nome do Financiador`
+    )
+  
+  table.tcc <-
+    table.tcc[order(table.tcc[, 1], table.tcc[, 2], table.tcc[, 3]), ]
+  
+  table.tcc[, 2] <-
+    as.vector(unlist(lapply(table.tcc[, 2], FUN = stringr::str_to_title)))
+  table.tcc[, 3] <-
+    as.vector(unlist(lapply(table.tcc[, 3], FUN = stringr::str_to_title)))
+  table.tcc[, 4] <-
+    as.vector(unlist(lapply(table.tcc[, 4], FUN = stringr::str_to_title)))
+  table.tcc[, 5] <-
+    as.vector(unlist(lapply(table.tcc[, 5], FUN = stringr::str_to_title)))
+  table.tcc[, 6] <-
+    as.vector(unlist(lapply(table.tcc[, 6], FUN = stringr::str_to_title)))
+  
+  colnames(table.tcc) <-
+    c("Ano", "Linha de Pesquisa", "Título", "Autor", "Orientador", "Financiador")
+} else {
+  table.tcc <- data.frame()
+}
+
+# drop duplicated entries
+table.tcc <- table.tcc[!duplicated(table.tcc),]
+
+table.tcc <- table.tcc %>% dplyr::arrange(
+  dplyr::desc(table.tcc$'Ano'),
+  table.tcc$'Autor'
+)
+table.tcc <- table.tcc %>% dplyr::arrange(dplyr::desc(as.numeric(table.tcc$'Ano')),
+                                        table.tcc$'Título')
+# print table
+source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+create_dt(table.tcc, title = "Impactos - Ações durante a Pandemia - Dissertações")
+
+source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
+```
+
+<br>
+
+### **Artigo completo em periódico** {.tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-artigos-completos, eval = any(has.artigos.completos.ppg, has.artigos.completos.sucupira)}
+# bind sources
+try(doi_with_altmetric <- doi_with_altmetric_artigos_impacto, silent = TRUE)
+try(doi_without_altmetric <- doi_without_altmetric_artigos_impacto, silent = TRUE)
+try(references <- references_artigos_impacto, silent = TRUE)
+
+# available years of publication
+try(years <-
+  na.omit(sort(unique(
+    c(doi_with_altmetric$published_on, doi_without_altmetric$published_on)
+  ), decreasing = TRUE)), silent = TRUE)
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+} else {
+  # print export buttons
+  source("Scripts/print-only-buttons.R", local = knitr::knit_global())
+  print_buttons_dt(references, title = "Ações durante a Pandemia - Artigos completos em periódicos")
+}
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+  cat('*Sem produção para exibir*')
+  cat('\n')
+} else {
+  # section header
+  cat('\n\n<!-- -->\n\n')
+  cat(
+    paste0(
+      "*Produtos (n = ",
+      max(dim(doi_with_altmetric)[1], 0) + max(dim(doi_without_altmetric)[1], 0),
+    ") e Impactos (Altmetric^1^, Dimensions^2^, PlumX^3^, CiteScore^4^, SJR^5^, Qualis^6^, Open Access^7^)* \n\n"
+    )
+  )
+  cat('<br>')
+  
+  for (year in 1:length(years)) {
+    # print tab header
+    cat('\n\n<!-- -->\n\n')
+    cat("#### **", as.character(years[year]), "**", "\n", sep = "")
+    
+    # print table of papers with/without badges
+    source("Scripts/papers-with-badges.R", local = knitr::knit_global())
+    table.with.badges(
+      show.Altmetric = TRUE,
+      show.Dimensions = TRUE,
+      show.PlumX = TRUE,
+      show.CiteScore = TRUE,
+      show.SJR = TRUE,
+      show.Qualis = TRUE,
+      doi_with_altmetric = tryCatch(
+        doi_with_altmetric[doi_with_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_with_altmetric <- as.data.frame(matrix(nrow = 0, ncol = 0))
+        }
+      ),
+      doi_without_altmetric = tryCatch(
+        doi_without_altmetric[doi_without_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_without_altmetric <- list()
+        }
+      ),
+      citescore = citescore,
+      scimago = scimago,
+      qualis = qualis
+    )
+  }
+}
+```
+
+<br>
+
+### **Artigo resumo em periódico** {.tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-artigos-resumos, eval = any(has.artigos.resumos.ppg, has.artigos.resumos.sucupira)}
+# bind sources
+try(doi_with_altmetric <- doi_with_altmetric_resumos_impacto, silent = TRUE)
+try(doi_without_altmetric <- doi_without_altmetric_resumos_impacto, silent = TRUE)
+try(references <- references_resumos_impacto, silent = TRUE)
+
+# available years of publication
+try(years <-
+  na.omit(sort(unique(
+    c(doi_with_altmetric$published_on, doi_without_altmetric$published_on)
+  ), decreasing = TRUE)), silent = TRUE)
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+} else {
+  # print export buttons
+  source("Scripts/print-only-buttons.R", local = knitr::knit_global())
+  print_buttons_dt(references, title = "Ações durante a Pandemia - Artigos resumos em periódicos")
+}
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+  cat('*Sem produção para exibir*')
+  cat('\n')
+} else {
+  # section header
+  cat('\n\n<!-- -->\n\n')
+  cat(
+    paste0(
+      "*Produtos (n = ",
+      max(dim(doi_with_altmetric)[1], 0) + max(dim(doi_without_altmetric)[1], 0),
+    ") e Impactos (Altmetric^1^, Dimensions^2^, PlumX^3^, CiteScore^4^, SJR^5^, Qualis^6^, Open Access^7^)* \n\n"
+    )
+  )
+  cat('<br>')
+  
+  for (year in 1:length(years)) {
+    # print tab header
+    cat('\n\n<!-- -->\n\n')
+    cat("#### **", as.character(years[year]), "**", "\n", sep = "")
+    
+    # print table of papers with/without badges
+    source("Scripts/papers-with-badges.R", local = knitr::knit_global())
+    table.with.badges(
+      show.Altmetric = TRUE,
+      show.Dimensions = TRUE,
+      show.PlumX = TRUE,
+      show.CiteScore = TRUE,
+      show.SJR = TRUE,
+      show.Qualis = TRUE,
+      doi_with_altmetric = tryCatch(
+        doi_with_altmetric[doi_with_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_with_altmetric <- as.data.frame(matrix(nrow = 0, ncol = 0))
+        }
+      ),
+      doi_without_altmetric = tryCatch(
+        doi_without_altmetric[doi_without_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_without_altmetric <- list()
+        }
+      ),
+      citescore = citescore,
+      scimago = scimago,
+      qualis = qualis
+    )
+  }
+}
+```
+
+<br>
+
+### **Preprint** {.tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-preprints, eval = has.preprints.ppg}
+# bind sources
+try(doi_with_altmetric <- doi_with_altmetric_preprints_impacto, silent = TRUE)
+try(doi_without_altmetric <- doi_without_altmetric_preprints_impacto, silent = TRUE)
+try(references <- references_preprints_impacto, silent = TRUE)
+
+# available years of publication
+try(years <-
+  na.omit(sort(unique(
+    c(doi_with_altmetric$published_on, doi_without_altmetric$published_on)
+  ), decreasing = TRUE)), silent = TRUE)
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+} else {
+  # print export buttons
+  source("Scripts/print-only-buttons.R", local = knitr::knit_global())
+  print_buttons_dt(references, title = "Ações durante a Pandemia - Preprints")
+}
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+  cat('*Sem produção para exibir*')
+  cat('\n')
+} else {
+  # section header
+  cat('\n\n<!-- -->\n\n')
+  cat(
+    paste0(
+      "*Produtos (n = ",
+      max(dim(doi_with_altmetric)[1], 0) + max(dim(doi_without_altmetric)[1], 0),
+    ") e Impactos (Altmetric^1^, Dimensions^2^, PlumX^3^, CiteScore^4^, SJR^5^, Qualis^6^, Open Access^7^)* \n\n"
+    )
+  )
+  cat('<br>')
+  
+  for (year in 1:length(years)) {
+    # print tab header
+    cat('\n\n<!-- -->\n\n')
+    cat("#### **", as.character(years[year]), "**", "\n", sep = "")
+    
+    # print table of papers with/without badges
+    source("Scripts/papers-with-badges.R", local = knitr::knit_global())
+    table.with.badges(
+      show.Altmetric = TRUE,
+      show.Dimensions = TRUE,
+      show.PlumX = TRUE,
+      show.CiteScore = FALSE,
+      show.SJR = FALSE,
+      show.Qualis = FALSE,
+      doi_with_altmetric = tryCatch(
+        doi_with_altmetric[doi_with_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_with_altmetric <- as.data.frame(matrix(nrow = 0, ncol = 0))
+        }
+      ),
+      doi_without_altmetric = tryCatch(
+        doi_without_altmetric[doi_without_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_without_altmetric <- list()
+        }
+      ),
+      citescore = citescore,
+      scimago = scimago,
+      qualis = qualis
+    )
+  }
+}
+```
+
+<br>
+
+### **Livro** {.tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-Livros, eval = has.livros.ppg}
+# bind sources
+try(doi_with_altmetric <- doi_with_altmetric_livros_impacto, silent = TRUE)
+try(doi_without_altmetric <- doi_without_altmetric_livros_impacto, silent = TRUE)
+try(references <- references_livros_impacto, silent = TRUE)
+
+# available years of publication
+try(years <-
+  na.omit(sort(unique(
+    c(doi_with_altmetric$published_on, doi_without_altmetric$published_on)
+  ), decreasing = TRUE)), silent = TRUE)
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+} else {
+  # print export buttons
+  source("Scripts/print-only-buttons.R", local = knitr::knit_global())
+  print_buttons_dt(references, title = "Ações durante a Pandemia - Livros")
+}
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+  cat('*Sem produção para exibir*')
+  cat('\n')
+} else {
+  # section header
+  cat('\n\n<!-- -->\n\n')
+  cat(
+    paste0(
+      "*Produtos (n = ",
+      max(dim(doi_with_altmetric)[1], 0) + max(dim(doi_without_altmetric)[1], 0),
+    ") e Impactos (Altmetric^1^, Dimensions^2^, PlumX^3^, CiteScore^4^, SJR^5^, Qualis^6^, Open Access^7^)* \n\n"
+    )
+  )
+  cat('<br>')
+  
+  for (year in 1:length(years)) {
+    # print tab header
+    cat('\n\n<!-- -->\n\n')
+    cat("#### **", as.character(years[year]), "**", "\n", sep = "")
+    
+    # print table of papers with/without badges
+    source("Scripts/papers-with-badges.R", local = knitr::knit_global())
+    table.with.badges(
+      show.Altmetric = TRUE,
+      show.Dimensions = TRUE,
+      show.PlumX = TRUE,
+      show.CiteScore = FALSE,
+      show.SJR = FALSE,
+      show.Qualis = FALSE,
+      doi_with_altmetric = tryCatch(
+        doi_with_altmetric[doi_with_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_with_altmetric <- as.data.frame(matrix(nrow = 0, ncol = 0))
+        }
+      ),
+      doi_without_altmetric = tryCatch(
+        doi_without_altmetric[doi_without_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_without_altmetric <- list()
+        }
+      ),
+      citescore = citescore,
+      scimago = scimago,
+      qualis = qualis
+    )
+  }
+}
+```
+
+<br>
+
+### **Capítulo** {.tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-capitulos, eval = has.capitulos.ppg}
+# bind sources
+try(doi_with_altmetric <- doi_with_altmetric_capitulos_impacto, silent = TRUE)
+try(doi_without_altmetric <- doi_without_altmetric_capitulos_impacto, silent = TRUE)
+try(references <- references_capitulos_impacto, silent = TRUE)
+
+# available years of publication
+try(years <-
+  na.omit(sort(unique(
+    c(doi_with_altmetric$published_on, doi_without_altmetric$published_on)
+  ), decreasing = TRUE)), silent = TRUE)
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+} else {
+  # print export buttons
+  source("Scripts/print-only-buttons.R", local = knitr::knit_global())
+  print_buttons_dt(references, title = "Ações durante a Pandemia - Capítulos")
+}
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+  cat('*Sem produção para exibir*')
+  cat('\n')
+} else {
+  # section header
+  cat('\n\n<!-- -->\n\n')
+  cat(
+    paste0(
+      "*Produtos (n = ",
+      max(dim(doi_with_altmetric)[1], 0) + max(dim(doi_without_altmetric)[1], 0),
+    ") e Impactos (Altmetric^1^, Dimensions^2^, PlumX^3^, CiteScore^4^, SJR^5^, Qualis^6^, Open Access^7^)* \n\n"
+    )
+  )
+  cat('<br>')
+  
+  for (year in 1:length(years)) {
+    # print tab header
+    cat('\n\n<!-- -->\n\n')
+    cat("#### **", as.character(years[year]), "**", "\n", sep = "")
+    
+    # print table of papers with/without badges
+    source("Scripts/papers-with-badges.R", local = knitr::knit_global())
+    table.with.badges(
+      show.Altmetric = TRUE,
+      show.Dimensions = TRUE,
+      show.PlumX = TRUE,
+      show.CiteScore = FALSE,
+      show.SJR = FALSE,
+      show.Qualis = FALSE,
+      doi_with_altmetric = tryCatch(
+        doi_with_altmetric[doi_with_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_with_altmetric <- as.data.frame(matrix(nrow = 0, ncol = 0))
+        }
+      ),
+      doi_without_altmetric = tryCatch(
+        doi_without_altmetric[doi_without_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_without_altmetric <- list()
+        }
+      ),
+      citescore = citescore,
+      scimago = scimago,
+      qualis = qualis
+    )
+  }
+}
+```
+
+<br>
+
+### **Trabalho em Anais** {.tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-resumos-anais, eval = has.anais.ppg}
+# bind sources
+try(doi_with_altmetric <- doi_with_altmetric_anais_impacto, silent = TRUE)
+try(doi_without_altmetric <- doi_without_altmetric_anais_impacto, silent = TRUE)
+try(references <- references_anais_impacto, silent = TRUE)
+
+# available years of publication
+try(years <-
+  na.omit(sort(unique(
+    c(doi_with_altmetric$published_on, doi_without_altmetric$published_on)
+  ), decreasing = TRUE)), silent = TRUE)
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+} else {
+  # print export buttons
+  source("Scripts/print-only-buttons.R", local = knitr::knit_global())
+  print_buttons_dt(references, title = "Ações durante a Pandemia - Trabalhos em anais de eventos científicos")
+}
+
+# Verifica se há DOIs
+if (max(dim(doi_with_altmetric)[1], 0) == 0 &
+    max(dim(doi_without_altmetric)[1], 0) == 0) {
+  cat('\n')
+  cat('*Sem produção para exibir*')
+  cat('\n')
+} else {
+  # section header
+  cat('\n\n<!-- -->\n\n')
+  cat(
+    paste0(
+      "*Produtos (n = ",
+      max(dim(doi_with_altmetric)[1], 0) + max(dim(doi_without_altmetric)[1], 0),
+    ") e Impactos (Altmetric^1^, Dimensions^2^, PlumX^3^, CiteScore^4^, SJR^5^, Qualis^6^, Open Access^7^)* \n\n"
+    )
+  )
+  cat('<br>')
+  
+  for (year in 1:length(years)) {
+    # print tab header
+    cat('\n\n<!-- -->\n\n')
+    cat("#### **", as.character(years[year]), "**", "\n", sep = "")
+    
+    # print table of papers with/without badges
+    source("Scripts/papers-with-badges.R", local = knitr::knit_global())
+    table.with.badges(
+      show.Altmetric = TRUE,
+      show.Dimensions = TRUE,
+      show.PlumX = TRUE,
+      show.CiteScore = TRUE,
+      show.SJR = TRUE,
+      show.Qualis = TRUE,
+      doi_with_altmetric = tryCatch(
+        doi_with_altmetric[doi_with_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_with_altmetric <- as.data.frame(matrix(nrow = 0, ncol = 0))
+        }
+      ),
+      doi_without_altmetric = tryCatch(
+        doi_without_altmetric[doi_without_altmetric$published_on == years[year], ],
+        error = function(e) {
+          doi_without_altmetric <- list()
+        }
+      ),
+      citescore = citescore,
+      scimago = scimago,
+      qualis = qualis
+    )
+  }
+}
+```
+
+<br>
+
+### **Prêmio** {#premios .tabset}
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+
+```{r pandemia-premios, eval = has.premios}
+# initialize all sheets
+abas <- readxl::excel_sheets("PPG/Prêmios.xlsx")
+
+# display each sheet in a tab
+for (j in 1:length(abas)) {
+  cat('\n\n<!-- -->\n\n')
+  cat(paste0('#### **', abas[j], '**'))
+  cat('\n\n<!-- -->\n\n')
+  premios.raw <-
+    readxl::read_excel(
+      "PPG/Prêmios.xlsx",
+      sheet = abas[j],
+      col_types = c("text")
+    )
+  
+  # replace the link by a tag
+  Abrir <- matrix(NA, nrow = dim(premios.raw)[1])
+  colnames(Abrir) <- "Abrir"
+  # add hyperlinks
+  for (i in 1:dim(premios.raw)[1]) {
+    if (!is.na(premios.raw[i, 3])) {
+      Abrir[i] <-
+        paste0('<a href="',
+               premios.raw[i, 3],
+               '" target="_blank"',
+               '>',
+               # fontawesome icon
+               fontawesome::fa("up-right-from-square"),
+               '</a>')
+    }
+  }
+  premios <- cbind(premios.raw[, -3], Abrir)
+  
+  # print table
+  if (dim(premios)[1] != 0) {
+    source("Scripts/table-with-buttons.R", local = knitr::knit_global())
+    cat(knitr::knit_print(create_dt(premios, title = "Impactos - Ações durante a Pandemia - Prêmios")))
+  } else {
+    cat("*Sem dados para exibir*")
+  }
+  
+  # print end of tab rows
+  cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>⬆️</a><br>')
+}
+```
+
+<br>
