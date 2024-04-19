@@ -11,6 +11,7 @@ details
 usethis
 devtools
 do
+evaluate
 plyr
 dplyr
 DT
