@@ -217,7 +217,7 @@ navbar:
     - text: E-mail
       icon: fa-envelope
       href: TESTE
-    - text: Site institucional
+    - text: Site insttitucional
       icon: fa-globe
       href: TESTE
     - text: Instagram

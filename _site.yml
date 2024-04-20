@@ -211,28 +211,28 @@ navbar:
       href: [links.html]
     - text: ""
       icon: "fa-binoculars"
-      href: [https://sucupira-beta.capes.gov.br/sucupira4/observatorio/detalhamento/programas/]
+      href: [https://sucupira-beta.capes.gov.br/sucupira4/observatorio/detalhamento/programas/204340]
     - text: ""
       icon: "fa-share-nodes"
       menu:
         - text: "E-mail"
           icon: "fa-envelope"
-          href: [mailto:arthur_sf@icloud.com]
-        - text: "Site institucional"
+          href: [mailto:felipe.reis@ifrj.edu.br]
+        - text: "Site insttitucional"
           icon: "fa-globe"
-          href: [https://orcid.org/0000-0001-7014-2002]
+          href: [https://www.ifrj.edu.br/cursos-pos-graduacao/stricto-sensu/programa-pos-graduacao-ciencia-tecnologia-e-inovacao-saude-0/]
         - text: "Instagram"
           icon: "fa-instagram"
-          href: [https://www.instagram.com/arthur.sa.ferreira]
+          href: [https://www.instagram.com/]
         - text: "Facebook"
           icon: "fa-facebook"
-          href: [https://pt-br.facebook.com/arthur.sa.ferreira]
+          href: [https://www.facebook.com/]
   right:
     - text: ""
       icon: "fa-github"
       href: [https://github.com/FerreiraAS/observatorio]
 
-href: https://ferreiraas.github.io/observatorio/
+href: https://ppgctis.github.io/ObservatorioCTIS/
 
 output:
   html_document:
