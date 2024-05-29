@@ -1231,6 +1231,14 @@ doi_all <-
                    doi_without_altmetric_all) %>%
   as.data.frame()
 
+# recall for cache
+references_artigos <- references_artigos
+references_resumos <- references_resumos
+references_preprints <- references_preprints
+references_livros <- references_livros
+references_capitulos <- references_capitulos
+references_anais <- references_anais
+
 # bind common data
 references_all <-
   dplyr::bind_rows(
