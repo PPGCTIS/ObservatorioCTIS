@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.5.26)  28 MAY 2024 23:10
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.5.29)  31 MAY 2024 20:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -408,7 +408,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/colortbl/colortbl.sty
-Package: colortbl 2024/02/20 v1.0g Color table columns (DPC)
+Package: colortbl 2024/05/26 v1.0h Color table columns (DPC)
 \everycr=\toks34
 \minrowclearance=\skip64
 \rownum=\count312
@@ -589,7 +589,7 @@ Package: tabularx 2023/07/08 v2.11c `tabularx' package (DPC)
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/pdfpages/pdfpages.sty
-Package: pdfpages 2024/01/21 v0.5y Insert pages of external PDF documents (AM)
+Package: pdfpages 2024/05/29 v0.6a Insert pages of external PDF documents (AM)
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/eso-pic/eso-pic.sty
@@ -601,7 +601,7 @@ Package: eso-pic 2023/05/03 v3.0c eso-pic (RN)
 \AM@pageheight=\dimen308
 \AM@fboxrule=\dimen309
 (/usr/local/texlive/2024/texmf-dist/tex/latex/pdfpages/ppxetex.def
-File: ppxetex.def 2024/01/21 v0.5y Pdfpages driver for XeTeX (AM)
+File: ppxetex.def 2024/05/29 v0.6a Pdfpages driver for XeTeX (AM)
 )
 \pdfpages@includegraphics@status=\count345
 \AM@pagebox=\box99
@@ -1337,10 +1337,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 37262 strings out of 474649
- 721985 string characters out of 5755059
+ 37263 strings out of 474649
+ 721991 string characters out of 5755059
  1932556 words of memory out of 5000000
- 58964 multiletter control sequences out of 15000+600000
+ 58965 multiletter control sequences out of 15000+600000
  594537 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  94i,19n,122p,1202b,492s stack positions out of 10000i,1000n,20000p,200000b,200000s
