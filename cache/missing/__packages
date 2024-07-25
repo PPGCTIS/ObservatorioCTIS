@@ -87,3 +87,5 @@ rcrossref
 retractcheck
 rscopus
 textreadr
+glue
+spatstat.univar
