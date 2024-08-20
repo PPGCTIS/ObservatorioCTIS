@@ -1,3 +1,10 @@
+base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
 alluvial
 anytime
 BBmisc
@@ -17,10 +24,12 @@ dplyr
 DT
 fontawesome
 geobr
+glue
 ggplot2
 ggpubr
 ggraph
 ggtext
+grid
 gridExtra
 gtsummary
 hrbrthemes
@@ -56,6 +65,7 @@ sessioninfo
 sf
 sjmisc
 spatstat.data
+spatstat.univar
 spatstat.geom
 spatstat.random
 nlme
@@ -72,8 +82,10 @@ tibble
 tidyr
 purrr
 forcats
+tinytable
 NLP
 tm
+tools
 units
 sm
 zoo
@@ -87,5 +99,3 @@ rcrossref
 retractcheck
 rscopus
 textreadr
-glue
-spatstat.univar
