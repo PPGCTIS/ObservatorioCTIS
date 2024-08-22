@@ -241,7 +241,7 @@ navbar:
           href: [https://www.facebook.com/]
         - text: "Observatório CAPES"
           icon: "fa-binoculars"
-          href: [https://sucupira-beta.capes.gov.br/sucupira4/observatorio/detalhamento/programas/204340]
+          href: [https://sucupira-beta.capes.gov.br/sucupira4/observatorio/detalhamento/programas/210531]
     - text: ""
       icon: "fa-github"
       href: [https://github.com/FerreiraAS/observatorio]
