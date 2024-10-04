@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.9.27)  28 SEP 2024 22:08
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.9.27)  4 OCT 2024 18:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -227,7 +227,7 @@ Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 ))) (/usr/local/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
@@ -235,14 +235,14 @@ Package xcolor Info: Driver file: xetex.def on input line 274.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics-def/xetex.def
 File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
-Package xcolor Info: Model `RGB' extended on input line 1366.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 (/usr/local/texlive/2024/texmf-dist/tex/generic/iftex/ifvtex.sty
@@ -631,7 +631,7 @@ Package shellesc Info: Restricted shell escape enabled on input line 77.
 \svg@box=\box102
 \c@svg@param@currpage=\count354
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
-Package: tcolorbox 2024/07/10 version 6.3.0 text color boxes
+Package: tcolorbox 2024/09/27 version 6.4.0 text color boxes
 (/usr/local/texlive/2024/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/
 local/texlive/2024/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/local/texl
 ive/2024/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
@@ -1560,10 +1560,10 @@ L3 programming layer <2024-09-10>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 39675 strings out of 474235
- 783034 string characters out of 5742253
- 1372830 words of memory out of 5000000
- 61747 multiletter control sequences out of 15000+600000
+ 39680 strings out of 474235
+ 783127 string characters out of 5742253
+ 1373022 words of memory out of 5000000
+ 61752 multiletter control sequences out of 15000+600000
  561728 words of font info for 71 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  99i,19n,123p,1202b,492s stack positions out of 10000i,1000n,20000p,200000b,200000s
