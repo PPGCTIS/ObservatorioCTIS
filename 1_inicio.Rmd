@@ -194,13 +194,13 @@ has.area.capes <-
 
 ```{r try-autoavaliacoes}
 has.autoavaliacao <-
-  !BBmisc::is.error(try(readxl::read_excel("PPG/Autoavaliação.xlsx", sheet = 1),
+  !BBmisc::is.error(try(readxl::read_excel("PPG/Autoavaliação PPG.xlsx", sheet = 1),
                 silent = TRUE))
 ```
 
 ```{r try-avaliacao}
 has.avaliacao <-
-  !BBmisc::is.error(try(readxl::read_excel("PPG/Avaliação.xlsx", sheet = 1),
+  !BBmisc::is.error(try(readxl::read_excel("PPG/Avaliação CAPES.xlsx", sheet = 1),
                 silent = TRUE))
 ```
 
@@ -801,11 +801,85 @@ try(write.table(
 silent = TRUE)
 ```
 
+## **Sites**
+
+```{r site}
+yml <- yaml::read_yaml("_site.yml")
+URL.site <- yml$navbar$right[[1]]$menu[[2]]$href
+
+screen_width <- 1920
+screen_height <- 1080
+
+# function to vget screenshot
+library("chromote")
+screenshot <- function(b, img_path,
+                       selector = "html",
+                       cliprect = c(top = 0, left = 0, width = screen_width, height = screen_height),
+                       expand = NULL) {
+  
+  b$screenshot(
+    img_path,
+    selector = selector,
+    delay = 15,
+    cliprect = cliprect,
+    expand = expand
+  )
+  
+  magick::image_read(img_path) |>
+    magick::image_shadow() |>
+    magick::image_write(img_path, quality = 100)
+}
+
+# get URL screenshot (site)
+if(!sjmisc::is_empty(URL.site)){
+  a <- ChromoteSession$new(height = screen_height, width = screen_width)
+  a$Page$navigate(URL.site)
+  Sys.sleep(1)
+  screenshot(a, "site.png")
+}
+```
+
+```{r observatorio}
+yml <- yaml::read_yaml("_site.yml")
+URL.obs <- yml$href
+
+screen_width <- 1920
+screen_height <- 1080
+
+# function to vget screenshot
+library("chromote")
+screenshot <- function(b, img_path,
+                       selector = "html",
+                       cliprect = c(top = 0, left = 0, width = screen_width, height = screen_height),
+                       expand = NULL) {
+  
+  b$screenshot(
+    img_path,
+    selector = selector,
+    delay = 15,
+    cliprect = cliprect,
+    expand = expand
+  )
+  
+  magick::image_read(img_path) |>
+    magick::image_shadow() |>
+    magick::image_write(img_path, quality = 100)
+}
+
+# get URL screenshot (observatório)
+if(!sjmisc::is_empty(URL.obs)){
+  b <- ChromoteSession$new(height = screen_height, width = screen_width)
+  b$Page$navigate(URL.obs)
+  Sys.sleep(1)
+  screenshot(b, "observatorio.png")
+}
+```
+
 ## **Relatórios de autoavaliação**
 
 ```{r autoavaliacao, echo = FALSE, include = FALSE, eval = TRUE}
 # Define periods
-periodos <- c("2013-2016", "2017-2020", "2021-2024")
+periodos <- c("2013-2016", "2017-2020", "2021-2024", "2025-2028")
 
 # Spam periods by vector element in a new list
 spam.periodos <- list()
@@ -830,7 +904,8 @@ for (periodo in periodos) {
     output_format = "all",
     output_file = paste0("autoavaliacao-", periodo),
     params = list(
-      quadrienal.vigente = paste0(as.numeric(strsplit(periodo, "-")[[1]][1]):as.numeric(strsplit(periodo, "-")[[1]][2]), collapse = ";")
+      quadrienal.vigente = paste0(as.numeric(strsplit(periodo, "-")[[1]][1]):as.numeric(strsplit(periodo, "-")[[1]][2]), collapse = ";"),
+      render_document = TRUE
     )
   )
 }

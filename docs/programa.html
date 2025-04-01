@@ -35,6 +35,27 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="site_libs/pdfmake-1.13.6/pdfmake.js"></script>
+<script src="site_libs/pdfmake-1.13.6/vfs_fonts.js"></script>
+<link href="site_libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
+<link href="site_libs/dt-ext-responsive-1.13.6/css/responsive.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-responsive-1.13.6/js/dataTables.responsive.min.js"></script>
+<link href="site_libs/dt-plugin-searchhighlight-1.13.6/source.css" rel="stylesheet" />
+<script src="site_libs/dt-plugin-searchhighlight-1.13.6/jquery.highlight.js"></script>
+<script src="site_libs/dt-plugin-searchhighlight-1.13.6/source.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
@@ -657,25 +678,16 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="autoavaliacao.html">-Autoavaliação-</a>
+      <a href="autoavaliacao-2025-2028.html">2025-2028</a>
     </li>
     <li>
-      <a href="autoavaliacao.html#avaliacao-capes">Avaliação CAPES</a>
+      <a href="autoavaliacao-2021-2024.html">2021-2024</a>
     </li>
     <li>
-      <a href="autoavaliacao.html#coleta">Dados do Coleta</a>
+      <a href="autoavaliacao-2017-2020.html">2017-2020</a>
     </li>
     <li>
-      <a href="autoavaliacao.html#ficha-avaliacao">Ficha de avaliação</a>
-    </li>
-    <li>
-      <a href="autoavaliacao.html#programa">1. Programa</a>
-    </li>
-    <li>
-      <a href="autoavaliacao.html#formacao">2. Formação</a>
-    </li>
-    <li>
-      <a href="autoavaliacao.html#impacto">3. Impacto na sociedade</a>
+      <a href="autoavaliacao-2013-2016.html">2013-2016</a>
     </li>
   </ul>
 </li>
@@ -686,6 +698,13 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="autoavaliacao-2025-2028.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        2025-2028
+      </a>
+    </li>
     <li>
       <a href="autoavaliacao-2021-2024.pdf">
         <span class="fa fa-file-pdf"></span>
@@ -863,10 +882,26 @@ href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://github.com
 <hr style="height:2px;border-width:0;color:black;background-color:black">
 <div id="em-andamento" class="section level3 tabset">
 <h3 class="tabset"><strong>Em andamento</strong></h3>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-2c3c477bdf5ccc425580" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2c3c477bdf5ccc425580">{"x":{"filter":"none","vertical":false,"extensions":["Buttons","Responsive"],"caption":"<caption>01/04/2025<\/caption>","data":[[],[],[],[],[],[],[]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Identificador da Pessoa do Membro<\/th>\n      <th>Área de Concentração<\/th>\n      <th>Linha de Pesquisa<\/th>\n      <th>Projeto<\/th>\n      <th>Natureza<\/th>\n      <th>Início<\/th>\n      <th>Responsável<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"colReorder":false,"pageLength":4,"width":"100%","scrollX":false,"dom":"Bftip","searchHighlight":true,"buttons":[{"extend":"copy","text":"Copiar","filename":"Programa - Projetos - Em andamento"},{"extend":"csv","text":"CSV","filename":"Programa - Projetos - Em andamento"},{"extend":"pdf","text":"PDF","title":"Programa - Projetos - Em andamento","filename":"Programa - Projetos - Em andamento"}],"language":{"info":"Mostrando de _START_ até _END_ de _TOTAL_","zeroRecords":"Nenhum registro encontrado","search":"Pesquisar","paginate":{"next":"Próximo","previous":"Anterior"}},"columnDefs":[{"name":"Identificador da Pessoa do Membro","targets":0},{"name":"Área de Concentração","targets":1},{"name":"Linha de Pesquisa","targets":2},{"name":"Projeto","targets":3},{"name":"Natureza","targets":4},{"name":"Início","targets":5},{"name":"Responsável","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="encerrados" class="section level3 tabset">
 <h3 class="tabset"><strong>Encerrados</strong></h3>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-82648e68e087982fad25" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-82648e68e087982fad25">{"x":{"filter":"none","vertical":false,"extensions":["Buttons","Responsive"],"caption":"<caption>01/04/2025<\/caption>","data":[[],[],[],[],[],[],[],[]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Identificador da Pessoa do Membro<\/th>\n      <th>Área de Concentração<\/th>\n      <th>Linha de Pesquisa<\/th>\n      <th>Projeto<\/th>\n      <th>Natureza<\/th>\n      <th>Início<\/th>\n      <th>Fim<\/th>\n      <th>Responsável<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"colReorder":false,"pageLength":4,"width":"100%","scrollX":false,"dom":"Bftip","searchHighlight":true,"buttons":[{"extend":"copy","text":"Copiar","filename":"Programa - Projetos de Pesquisa - Encerrados"},{"extend":"csv","text":"CSV","filename":"Programa - Projetos de Pesquisa - Encerrados"},{"extend":"pdf","text":"PDF","title":"Programa - Projetos de Pesquisa - Encerrados","filename":"Programa - Projetos de Pesquisa - Encerrados"}],"language":{"info":"Mostrando de _START_ até _END_ de _TOTAL_","zeroRecords":"Nenhum registro encontrado","search":"Pesquisar","paginate":{"next":"Próximo","previous":"Anterior"}},"columnDefs":[{"name":"Identificador da Pessoa do Membro","targets":0},{"name":"Área de Concentração","targets":1},{"name":"Linha de Pesquisa","targets":2},{"name":"Projeto","targets":3},{"name":"Natureza","targets":4},{"name":"Início","targets":5},{"name":"Fim","targets":6},{"name":"Responsável","targets":7}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 </div>
@@ -885,15 +920,33 @@ href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://github.com
 <h3 class="tabset"><strong>Projetos de pesquisa</strong></h3>
 <div id="auxilio-financeiro" class="section level4">
 <h4><strong>Auxílio financeiro</strong></h4>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="bolsas" class="section level4">
 <h4><strong>Bolsas</strong></h4>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 </div>
 <div id="trabalhos-de-conclusão-de-curso" class="section level3">
 <h3><strong>Trabalhos de conclusão de curso</strong></h3>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="detalhamento" class="section level3">
@@ -948,6 +1001,12 @@ for(var i=0; i < document.formOBRDSC.ckb.length; i++){
   }
 }
 </script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="eletivos" class="section level4">
@@ -964,6 +1023,12 @@ for(var i=0; i < document.formELEDSC.ckb.length; i++){
   }
 }
 </script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 </div>
@@ -988,6 +1053,12 @@ for(var i=0; i < document.formOBRMSC.ckb.length; i++){
   }
 }
 </script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="eletivos-1" class="section level4">
@@ -1004,6 +1075,126 @@ for(var i=0; i < document.formELEMSC.ckb.length; i++){
   }
 }
 </script>
+<form name="formELEMSC" method="post" action="check.php">
+<table class="table table-striped">
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 0 )">
+Análise Quantitativa Avançada (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 1 )">
+Análise Quantitativa e Qualitativa Básica (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 2 )">
+Assistência Farmacêutica (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 3 )">
+Dissertação de Mestrado I (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 3 " onclick="chkcontrol2( 4 )">
+Dissertação de Mestrado II (3 CR) (45 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 5 )">
+Educação em Saúde (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 6 )">
+Epistemologia do Cuidado Integral em Saúde (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 7 )">
+Inovação e Tecnologia em Saúde (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 3 " onclick="chkcontrol2( 8 )">
+Metodologia em Pesquisa Científica (3 CR) (45 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 3 " onclick="chkcontrol2( 9 )">
+Políticas e Gestão em Saúde (3 CR) (45 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 10 )">
+Prática Baseada em Evidência (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 11 )">
+Redação Científica e Instrumentalização em Pesquisa (2 CR) (30 CH)
+</input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 1 " onclick="chkcontrol2( 12 )">
+Seminários I (1 CR) (15 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 13 )">
+Seminários II (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 14 )">
+Textos Científicos em Língua Estrangeira (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 15 )">
+Tópicos Especiais em Desenvolvimento Motor Infantil (2 CR) (30 CH)
+</input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 16 )">
+Tópicos especiais em Gerontecnologia (2 CR) (30 CH) </input>
+</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="ckb" value=" 2 " onclick="chkcontrol2( 17 )">
+Ética em Pesquisa (2 CR) (30 CH) </input>
+</td>
+</tr>
+</table>
+</form>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 </div>
@@ -1014,6 +1205,14 @@ for(var i=0; i < document.formELEMSC.ckb.length; i++){
 <hr style="height:2px;border-width:0;color:black;background-color:black">
 <div id="disciplinas" class="section level3">
 <h3><strong>Disciplinas</strong></h3>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-67df9ff8f35dda910816" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-67df9ff8f35dda910816">{"x":{"filter":"none","vertical":false,"extensions":["Buttons","Responsive"],"caption":"<caption>01/04/2025<\/caption>","data":[["Análise Quantitativa Avançada","Análise Quantitativa e Qualitativa Básica","Assistência Farmacêutica","Dissertação de Mestrado I","Dissertação de Mestrado II","Educação em Saúde","Epistemologia do Cuidado Integral em Saúde","Ética em Pesquisa","Inovação e Tecnologia em Saúde","Metodologia em Pesquisa Científica","Políticas e Gestão em Saúde","Prática Baseada em Evidência","Redação Científica e Instrumentalização em Pesquisa","Seminários I","Seminários II","Textos Científicos em Língua Estrangeira","Tópicos Especiais em Desenvolvimento Motor Infantil","Tópicos especiais em Gerontecnologia"],["Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não","Não"],["2","2","2","2","3","2","2","2","2","3","3","2","2","1","2","2","2","2"],["30","30","30","30","45","30","30","30","30","45","45","30","30","15","30","30","30","30"],["2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025","2025"],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Disciplina<\/th>\n      <th>Obrigatória (MA)<\/th>\n      <th>CR<\/th>\n      <th>CH<\/th>\n      <th>Início<\/th>\n      <th>Obrigatória (DA)<\/th>\n      <th>CR<\/th>\n      <th>CH<\/th>\n      <th>Início<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"colReorder":false,"pageLength":4,"width":"100%","scrollX":false,"dom":"Bftip","searchHighlight":true,"buttons":[{"extend":"copy","text":"Copiar","filename":"Programa - Disciplinas - Ativas"},{"extend":"csv","text":"CSV","filename":"Programa - Disciplinas - Ativas"},{"extend":"pdf","text":"PDF","title":"Programa - Disciplinas - Ativas","filename":"Programa - Disciplinas - Ativas"}],"language":{"info":"Mostrando de _START_ até _END_ de _TOTAL_","zeroRecords":"Nenhum registro encontrado","search":"Pesquisar","paginate":{"next":"Próximo","previous":"Anterior"}},"columnDefs":[{"name":"Disciplina","targets":0},{"name":"Obrigatória (MA)","targets":1},{"name":"CR","targets":2},{"name":"CH","targets":3},{"name":"Início","targets":4},{"name":"Obrigatória (DA)","targets":5},{"name":"CR","targets":6},{"name":"CH","targets":7},{"name":"Início","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="ementas" class="section level3">
@@ -1026,6 +1225,14 @@ for(var i=0; i < document.formELEMSC.ckb.length; i++){
 </div>
 <div id="inativas-2" class="section level3">
 <h3><strong>Inativas</strong></h3>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e633154ef524e62121ea" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e633154ef524e62121ea">{"x":{"filter":"none","vertical":false,"extensions":["Buttons","Responsive"],"caption":"<caption>01/04/2025<\/caption>","data":[[],[],[],[],[],[],[],[],[]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Disciplina<\/th>\n      <th>Obrigatória (MA)<\/th>\n      <th>CR<\/th>\n      <th>CH<\/th>\n      <th>Fim<\/th>\n      <th>Obrigatória (DA)<\/th>\n      <th>CR<\/th>\n      <th>CH<\/th>\n      <th>Fim<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"colReorder":false,"pageLength":4,"width":"100%","scrollX":false,"dom":"Bftip","searchHighlight":true,"buttons":[{"extend":"copy","text":"Copiar","filename":"Programa - Disciplinas - Inativas"},{"extend":"csv","text":"CSV","filename":"Programa - Disciplinas - Inativas"},{"extend":"pdf","text":"PDF","title":"Programa - Disciplinas - Inativas","filename":"Programa - Disciplinas - Inativas"}],"language":{"info":"Mostrando de _START_ até _END_ de _TOTAL_","zeroRecords":"Nenhum registro encontrado","search":"Pesquisar","paginate":{"next":"Próximo","previous":"Anterior"}},"columnDefs":[{"name":"Disciplina","targets":0},{"name":"Obrigatória (MA)","targets":1},{"name":"CR","targets":2},{"name":"CH","targets":3},{"name":"Fim","targets":4},{"name":"Obrigatória (DA)","targets":5},{"name":"CR","targets":6},{"name":"CH","targets":7},{"name":"Fim","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 </div>
@@ -1054,7 +1261,15 @@ for(var i=0; i < document.formELEMSC.ckb.length; i++){
 <h2 class="tabset"><strong>Turmas</strong></h2>
 <!--script for generating HORIZONTAL LINE-->
 <hr style="height:2px;border-width:0;color:black;background-color:black">
-<p><br></p>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-cc4b9c5a78fab167f8fd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cc4b9c5a78fab167f8fd">{"x":{"filter":"none","vertical":false,"extensions":["Buttons","Responsive"],"caption":"<caption>01/04/2025<\/caption>","data":[[],[],[],[],[],[]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Ano<\/th>\n      <th>Período<\/th>\n      <th>Disciplina<\/th>\n      <th>Nível<\/th>\n      <th>Responsável<\/th>\n      <th>Colaboradores<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"colReorder":false,"pageLength":4,"width":"100%","scrollX":false,"dom":"Bftip","searchHighlight":true,"buttons":[{"extend":"copy","text":"Copiar","filename":"Programa - Turmas"},{"extend":"csv","text":"CSV","filename":"Programa - Turmas"},{"extend":"pdf","text":"PDF","title":"Programa - Turmas","filename":"Programa - Turmas"}],"language":{"info":"Mostrando de _START_ até _END_ de _TOTAL_","zeroRecords":"Nenhum registro encontrado","search":"Pesquisar","paginate":{"next":"Próximo","previous":"Anterior"}},"columnDefs":[{"name":"Ano","targets":0},{"name":"Período","targets":1},{"name":"Disciplina","targets":2},{"name":"Nível","targets":3},{"name":"Responsável","targets":4},{"name":"Colaboradores","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true,"lengthMenu":[4,10,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Autoria</strong>: ¹Discente, ²Egresso, ³Docente
+<strong>Fontes</strong>: <a
+href="https://sucupira.capes.gov.br/sucupira/"><strong>Plataforma
+Sucupira</strong></a> <br><a style="float:right" href="#top"><b>Início
+ </b>
+<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/></svg>
+</a><br></p>
 <p><br></p>
 </div>
 <div id="convenios" class="section level2 tabset">
@@ -1092,7 +1307,7 @@ for(var i=0; i < document.formELEMSC.ckb.length; i++){
 </div>
 
 <div style="text-align: center; vertical-align: baseline;">
-  <img style="vertical-align: baseline" width="2%" src="https://raw.githubusercontent.com/rstudio/hex-stickers/main/thumbs/RStudio.png"> Desenvolvido em <a href="https://www.rstudio.com/" target="_blank">RStudio</a> usando <a href="https://rmarkdown.rstudio.com" target="_blank">R Markdown</a>
+  <img style="vertical-align: center" width="1.5%" src="https://raw.githubusercontent.com/rstudio/hex-stickers/main/thumbs/RStudio.png"> Desenvolvido em <a href="https://www.rstudio.com/" target="_blank">RStudio</a> usando <a href="https://rmarkdown.rstudio.com" target="_blank">R Markdown</a>
 </div>
 
 <br>
