@@ -1939,13 +1939,15 @@ table.2 <- metricas_artigos %>% dplyr::select(
     "cited_by_gplus_count",
     "cited_by_msm_count",
     "cited_by_rdts_count",
-    "cited_by_qna_count", # NEW
+    "cited_by_qna_count",
     "cited_by_tweeters_count",
-    "cited_by_bluesky_count", #NEW
-    "cited_by_wikipedia_count", # NEW
-    "cited_by_policies_count", # NEW
+    "cited_by_bluesky_count",
+    "cited_by_wikipedia_count",
+    "cited_by_policies_count",
+    "cited_by_guidelines_count",
     "cited_by_patents_count",
     "cited_by_videos_count",
+    "cited_by_podcasts_count",
     "cited_by_posts_count",
     "mendeley"
   )
@@ -3783,32 +3785,34 @@ if(!sjmisc::is_empty(proj.id)){
 layout.m <- c(1)
 source("Scripts/plot-margins.R", local = knitr::knit_global())
 
-# plot 1
-plot(
-  network,
-  directed = FALSE,
-  arrow.mode = 0,
-  vertex.label = NA,
-  vertex.frame.color = "darkgrey",
-  vertex.size = log(igraph::degree(network, mode = "all")) * 1.2,
-  edge.color = "lightgrey",
-  edge.lty = "solid",
-  edge.size = igraph::edge.betweenness(network),
-  edge.curved = .2
-)
-legend(
-  "bottomleft",
-  legend = levels(categ),
-  pch = 19,
-  col = colrs,
-  text.col = "white",
-  bty = "n",
-  horiz = FALSE,
-  cex = 0.8
-)
-title(main = "Membros de Projetos de Pesquisa",
-      outer = TRUE,
-      cex.main = 1.7)
+# plot 1 (network of project members)
+if(network %>% igraph::vcount() != 0){
+  plot(
+    network,
+    directed = FALSE,
+    arrow.mode = 0,
+    vertex.label = NA,
+    vertex.frame.color = "darkgrey",
+    vertex.size = log(igraph::degree(network, mode = "all")) * 1.2,
+    edge.color = "lightgrey",
+    edge.lty = "solid",
+    edge.size = igraph::edge.betweenness(network),
+    edge.curved = .2
+  )
+  legend(
+    "bottomleft",
+    legend = levels(categ),
+    pch = 19,
+    col = colrs,
+    text.col = "white",
+    bty = "n",
+    horiz = FALSE,
+    cex = 0.8
+  )
+  title(main = "Membros de Projetos de Pesquisa",
+        outer = TRUE,
+        cex.main = 1.7)
+}
 
 # IES participantes externos
 sheet <- "Participante Externo"

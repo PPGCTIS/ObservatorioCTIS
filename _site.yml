@@ -250,10 +250,10 @@ navbar:
           href: [mailto:felipe.reis@ifrj.edu.br]
         - text: "Site"
           icon: "fa-globe"
-          href: [https://www.ifrj.edu.br/cursos-pos-graduacao/stricto-sensu/programa-pos-graduacao-ciencia-tecnologia-e-inovacao-saude-0/]
+          href: [https://www.ifrj.edu.br/cursos-pos-graduacao/stricto-sensu/ppgctis]
         - text: "Instagram"
           icon: "fa-instagram"
-          href: [https://www.instagram.com/]
+          href: [https://www.instagram.com/ppgctis.ifrj]
         - text: "Facebook"
           icon: "fa-facebook"
           href: [https://www.facebook.com/]
