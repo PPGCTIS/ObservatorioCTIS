@@ -165,15 +165,13 @@ navbar:
       menu:
         - text: "-Destaques-"
           href: [destaques.html]
-        - text: "Egressos"
+        - text: "Egressos de destaque"
           href: [destaques.html#egressos-destaque]
-        - text: "Dissertações/Teses"
-          href: [destaques.html#TCC-destaque]
-        - text: "Engajamento com a produção"
+        - text: "Produção: Engajamento"
           href: [destaques.html#destaque-altmetric]
-        - text: "Citações recentes do periódico"
+        - text: "Produção: Citações"
           href: [destaques.html#destaque-citescore]
-        - text: "Prestígio do periódico"
+        - text: "Produção: Prestígio do periódico"
           href: [destaques.html#destaque-sjr]
         - text: "Prêmios"
           href: [destaques.html#premios]
