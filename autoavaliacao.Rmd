@@ -32,6 +32,10 @@ params:
   render_document: FALSE
 ---
 
+```{r, include = FALSE, echo = FALSE}
+render_document <- params$render_document
+```
+
 <!--set up-->
 ```{r setup, include = FALSE, echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', out.width = "100%", results = "hide"}
 knitr::opts_chunk$set(
@@ -81,8 +85,6 @@ source("Scripts/years-sucupira.R", local = knitr::knit_global())
 
 # ajusta para pastas Sucupira
 quadrienal.vigente <- anos[anos %in% quadrienal.vigente]
-
-render_document <- params$render_document
 ```
 
 ```{r, eval = all(!render_document, knitr::is_html_output())}
