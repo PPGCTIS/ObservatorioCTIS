@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.27)  7 FEB 2026 13:28
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.2.9)  10 FEB 2026 10:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1577,18 +1577,6 @@ Package: xurl 2022/01/09 v 0.10 modify URL breaks
 ) (./autoavaliacao-2025-2028.aux
 Package babel Info: 'brazilian' activates 'portuges' shorthands.
 (babel)             Reported on input line 8.
-
-LaTeX Warning: Label `tab:2-2-1-list-tables' multiply defined.
-
-
-LaTeX Warning: Label `tab:2-2-1-list-tables' multiply defined.
-
-
-LaTeX Warning: Label `tab:2-2-2-list-tables' multiply defined.
-
-
-LaTeX Warning: Label `tab:2-2-2-list-tables' multiply defined.
-
 )
 \openout1 = `autoavaliacao-2025-2028.aux'.
 
@@ -2058,15 +2046,12 @@ File: observatorio.png Graphic file (type bmp)
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 45523 strings out of 468174
- 953604 string characters out of 5433150
- 1537610 words of memory out of 5000000
- 73605 multiletter control sequences out of 15000+600000
+ 45520 strings out of 468174
+ 953535 string characters out of 5433151
+ 1537224 words of memory out of 5000000
+ 73602 multiletter control sequences out of 15000+600000
  631768 words of font info for 78 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  99i,19n,126p,1212b,1883s stack positions out of 10000i,1000n,20000p,200000b,200000s
