@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Consolidado</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link rel="shortcut icon" href="favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+<link rel="shortcut icon" href="favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="favicon_io/apple-touch-icon.png" type="image/png">
+<link rel="icon" href="favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="shortcut icon" href="favicon_io/favicon.ico" type="image/x-icon">
+<meta name="citation_doi" content="doi:10.5281/zenodo.8322622"/>
+<meta name="Doi" content="doi:10.5281/zenodo.8322622"/>
+<meta name="DC.Identifier" content="doi:10.5281/zenodo.8322622"/>
+<meta name="DC.DOI" content="doi:10.5281/zenodo.8322622"/>
+<meta name="DC.Identifier.DOI" content="doi:10.5281/zenodo.8322622"/>
+<meta name="DOIs" content="doi:10.5281/zenodo.8322622"/>
+<meta name="bepress_citation_doi" content="doi:10.5281/zenodo.8322622"/>
+<meta name="rft_id" content="doi:10.5281/zenodo.8322622"/></head>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="CSS/generic.css" type="text/css" />
+<link rel="stylesheet" href="CSS/logo-above-toc.css" type="text/css" />
+<link rel="stylesheet" href="CSS/main-color.css" type="text/css" />
+<link rel="stylesheet" href="CSS/narrow-margins.css" type="text/css" />
+<link rel="stylesheet" href="CSS/responsive.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Programa
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="programa.html">-Programa-</a>
+    </li>
+    <li>
+      <a href="programa#area-avaliacao.html">Área de avaliação</a>
+    </li>
+    <li>
+      <a href="programa.html#area-concentracao">Área de concentração</a>
+    </li>
+    <li>
+      <a href="programa.html#linha-pesquisa">Linhas de pesquisa</a>
+    </li>
+    <li>
+      <a href="programa.html#projeto-pesquisa">Projetos de pesquisa</a>
+    </li>
+    <li>
+      <a href="programa.html#agendas-pesquisa">Agendas de pesquisa</a>
+    </li>
+    <li>
+      <a href="programa.html#financiadores">Financiadores</a>
+    </li>
+    <li>
+      <a href="programa.html#infraestrutura">Infraestrutura</a>
+    </li>
+    <li>
+      <a href="programa.html#laboratorios-pesquisa">Laboratórios de pesquisa</a>
+    </li>
+    <li>
+      <a href="programa.html#cursos">Cursos</a>
+    </li>
+    <li>
+      <a href="programa.html#estrutura-curricular">Estrutura curricular</a>
+    </li>
+    <li>
+      <a href="programa.html#editais">Processo seletivo para ingresso</a>
+    </li>
+    <li>
+      <a href="programa.html#bolsas">Bolsas de estudo</a>
+    </li>
+    <li>
+      <a href="programa.html#calendarios">Calendários</a>
+    </li>
+    <li>
+      <a href="programa.html#turmas">Turmas</a>
+    </li>
+    <li>
+      <a href="programa.html#convenios">Convênios institucionais</a>
+    </li>
+    <li>
+      <a href="programa.html#cooperacao">Cooperação entre instituições</a>
+    </li>
+    <li>
+      <a href="programa.html#internacional">Internacionalização</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Pessoas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pessoas.html">-Pessoas-</a>
+    </li>
+    <li>
+      <a href="pessoas.html#secretaria">Secretaria</a>
+    </li>
+    <li>
+      <a href="pessoas.html#coordenacao">Coordenação</a>
+    </li>
+    <li>
+      <a href="pessoas.html#docentes">Docentes</a>
+    </li>
+    <li>
+      <a href="pessoas.html#posdocs">Pós-doutorandos</a>
+    </li>
+    <li>
+      <a href="pessoas.html#discentes">Discentes</a>
+    </li>
+    <li>
+      <a href="pessoas.html#egressos">Egressos</a>
+    </li>
+    <li>
+      <a href="pessoas.html#encerrados">Encerrados</a>
+    </li>
+    <li>
+      <a href="pessoas.html#bacharelado">Bacharelado</a>
+    </li>
+    <li>
+      <a href="pessoas.html#grupos-pesquisa">Grupos de pesquisa</a>
+    </li>
+    <li>
+      <a href="pessoas.html#participantes-externos">Participantes externos</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Teses e dissertações
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="repositorio.html">-Teses e dissertações-</a>
+    </li>
+    <li>
+      <a href="repositorio.html#bancas-examinadoras">Bancas examinadoras</a>
+    </li>
+    <li>
+      <a href="repositorio.html#teses">Teses</a>
+    </li>
+    <li>
+      <a href="repositorio.html#dissertacões">Dissertações</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Bibliográfica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="bibliografica.html">-Bibliográfica-</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#jornal-revista">Artigo em jornal ou revista</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#artigo-periodico">Artigo em periódico</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#livro">Livro</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#partitura">Partitura</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#trabalho-em-anais">Trabalho em anais</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#traducao">Tradução</a>
+    </li>
+    <li>
+      <a href="bibliografica.html#outro">Outro</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Técnica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tecnica.html">-Técnica-</a>
+    </li>
+    <li>
+      <a href="tecnica.html#apresentacao-trabalho">Apresentação de trabalho</a>
+    </li>
+    <li>
+      <a href="tecnica.html#cartas-mapas">Cartas, mapas ou similares</a>
+    </li>
+    <li>
+      <a href="tecnica.html#curso-curta-duracao">Curso de curta duração</a>
+    </li>
+    <li>
+      <a href="tecnica.html#aplicativo">Desenvolvimento de aplicativo</a>
+    </li>
+    <li>
+      <a href="tecnica.html#didatico-instrucional">Desenvolvimento de material didático e instrucional</a>
+    </li>
+    <li>
+      <a href="tecnica.html#produto">Desenvolvimento de produto</a>
+    </li>
+    <li>
+      <a href="tecnica.html#tecnica">Desenvolvimento de técnica</a>
+    </li>
+    <li>
+      <a href="tecnica.html#editoria">Editoria</a>
+    </li>
+    <li>
+      <a href="tecnica.html#manutencao-obra">Manutenção de obra artística</a>
+    </li>
+    <li>
+      <a href="tecnica.html#maquete">Maquete</a>
+    </li>
+    <li>
+      <a href="tecnica.html#organizacao-evento">Organização de evento</a>
+    </li>
+    <li>
+      <a href="tecnica.html#patente">Patente</a>
+    </li>
+    <li>
+      <a href="tecnica.html#radio-tv">Programa de rádio ou TV</a>
+    </li>
+    <li>
+      <a href="tecnica.html#relatorio-pesquisa">Relatório de pesquisa</a>
+    </li>
+    <li>
+      <a href="tecnica.html#servico-tecnico">Serviço técnico</a>
+    </li>
+    <li>
+      <a href="tecnica.html#outro">Outro</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Destaques
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="destaques.html">-Destaques-</a>
+    </li>
+    <li>
+      <a href="destaques.html#egressos-destaque">Egressos de destaque</a>
+    </li>
+    <li>
+      <a href="destaques.html#destaque-altmetric">Produção: Engajamento</a>
+    </li>
+    <li>
+      <a href="destaques.html#destaque-citescore">Produção: Citações</a>
+    </li>
+    <li>
+      <a href="destaques.html#destaque-sjr">Produção: Prestígio do periódico</a>
+    </li>
+    <li>
+      <a href="destaques.html#premios">Prêmios</a>
+    </li>
+    <li>
+      <a href="destaques.html#premio-capes">Prêmio CAPES de Tese</a>
+    </li>
+    <li>
+      <a href="destaques.html#representatividade">Representatividade</a>
+    </li>
+    <li>
+      <a href="destaques.html#divulgacao">Divulgação científica</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Impactos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="impactos.html">-Impactos-</a>
+    </li>
+    <li>
+      <a href="impactos.html#impacto-educacional">Impacto educacional</a>
+    </li>
+    <li>
+      <a href="impactos.html#impacto-cientifico">Impacto científico</a>
+    </li>
+    <li>
+      <a href="impactos.html#impacto-tecnologico">Impacto tecnológico/econômico</a>
+    </li>
+    <li>
+      <a href="impactos.html#impacto-sociocultural">Impacto sociocultural</a>
+    </li>
+    <li>
+      <a href="impactos.html#acoes-pandemia">Ações durante a pandemia</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="downloads.html">Downloads</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Autoavaliação
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="autoavaliacao-2025-2028.html">2025-2028</a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2021-2024.html">2021-2024</a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2017-2020.html">2017-2020</a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2013-2016.html">2013-2016</a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2010-2012.html">2010-2012</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relatórios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="autoavaliacao-2025-2028.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        2025-2028
+      </a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2021-2024.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        2021-2024
+      </a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2017-2020.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        2017-2020
+      </a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2013-2016.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        2013-2016
+      </a>
+    </li>
+    <li>
+      <a href="autoavaliacao-2010-2012.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        2010-2012
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-share-nodes"></span>
+     
+    
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="mailto:felipe.reis@ifrj.edu.br">
+        <span class="fa fa-envelope"></span>
+         
+        E-mail
+      </a>
+    </li>
+    <li>
+      <a href="https://www.ifrj.edu.br/cursos-pos-graduacao/stricto-sensu/ppgctis">
+        <span class="fa fa-globe"></span>
+         
+        Site
+      </a>
+    </li>
+    <li>
+      <a href="https://www.instagram.com/ppgctis.ifrj">
+        <span class="fa fa-instagram"></span>
+         
+        Instagram
+      </a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/">
+        <span class="fa fa-facebook"></span>
+         
+        Facebook
+      </a>
+    </li>
+    <li>
+      <a href="https://sucupira-v2.capes.gov.br/observatorio/detalhamento/programas/210531">
+        <span class="fa fa-binoculars"></span>
+         
+        Observatório CAPES
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://github.com/FerreiraAS/observatorio">
+    <span class="fa fa-github"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!--Script for adding a Google Translation bar-->
+
+<html lang="pt-BR">
+<div align="right" id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'pt'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> 
+
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Consolidado</h1>
+
+</div>
+
+
+<!--set up-->
+<!--load caches-->
+<!--script for inserting LOGO ABOVE THE TOC-->
+<script>
+$(document).ready(function() {
+$('#TOC').parent().prepend('<div id=\"nav_logo\"><img src="PPG/Images/logo-programa.png"></div>');
+});
+</script>
+<!--script for sharing-->
+<p align="right">
+<a
+href="https://twitter.com/intent/tweet?url=https://github.com/FerreiraAS"><svg preserveAspectRatio="none" aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:2em;width:2em;vertical-align:-0.125em;margin-left:0.2em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></a>
+<a
+href="https://www.facebook.com/sharer.php?u=https://github.com/FerreiraAS"><svg preserveAspectRatio="none" aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:2em;width:2em;vertical-align:-0.125em;margin-left:0.2em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64h98.2V334.2H109.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H255V480H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"/></svg></a>
+<a
+href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://github.com/FerreiraAS"><svg preserveAspectRatio="none" aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:2em;width:2em;vertical-align:-0.125em;margin-left:0.2em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+</p>
+<p><br></p>
+<div id="coleta" class="section level2 tabset">
+<h2 class="tabset"><strong>Análises</strong></h2>
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+<p><br></p>
+<table style="NAborder-bottom: 0; margin-left: auto; margin-right: auto;border-bottom: 0;" class="table table-striped table-hover table-condensed table-responsive">
+<caption>
+Razão discentes/docentes por ano (2025-2025)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variável
+</th>
+<th style="text-align:center;">
+N = 1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ano
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+2025
+</td>
+<td style="text-align:center;">
+1 (100%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total de docentes
+</td>
+<td style="text-align:center;">
+14 (NA)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total de discentes
+</td>
+<td style="text-align:center;">
+0 (NA)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Razão discentes/docentes
+</td>
+<td style="text-align:center;">
+0.00 (NA)
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup>1</sup> Média (Desvio-padrão)
+</td>
+</tr>
+</tfoot>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<span style="font-style: italic;">Fonte: </span>
+</td>
+</tr>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Plataforma Sucupira (<a href="https://sucupira.capes.gov.br"
+class="uri">https://sucupira.capes.gov.br</a>)
+</td>
+</tr>
+</tfoot>
+</table>
+<p style="color: red; font-weight: bold;">
+Modelos não disponíveis para exibição.
+</p>
+<p><br></p>
+</div>
+
+<!--script for generating HORIZONTAL LINE-->
+<hr style="height:10px;border-width:0;color:black;background-color:black">
+
+<br>
+
+<div style="text-align: center; vertical-align: baseline">
+  <p>Copyright &copy; 2021-<script type="text/javascript">document.write( new Date().getFullYear() );</script> Arthur de Sá Ferreira, DSc. Todos os direitos reservados. Última atualização em <span id="datetime"></span><script>var dt = new Date().toLocaleDateString(); document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>.<p/></div>
+
+<div style="text-align: center; vertical-align: baseline;">
+  <p><b>Observatório</b> por <a id="cy-effective-orcid-url" class="underline" href="https://orcid.org/0000-0001-7014-2002" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align: baseline;"> <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width: 1em; margin-inline-start: 0.5em" alt="ORCID iD icon"/> Arthur de Sá Ferreira</a> está licenciado sob <a rel="license" data-spdx="Apache-2.0" href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a></p>
+</div>
+
+<div style="text-align: center; vertical-align: baseline;">
+  <img style="vertical-align: center" width="1.5%" src="https://raw.githubusercontent.com/rstudio/hex-stickers/main/thumbs/RStudio.png"> Desenvolvido em <a href="https://www.rstudio.com/" target="_blank">RStudio</a> usando <a href="https://rmarkdown.rstudio.com" target="_blank">R Markdown</a>
+</div>
+
+<br>
+
+<!--print ZENODO citation-->
+<div style="text-align: center; vertical-align: baseline;">
+<a href="https://doi.org/10.5281/zenodo.8322622"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8322622.svg" alt="DOI"></a>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
