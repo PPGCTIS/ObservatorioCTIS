@@ -6520,7 +6520,7 @@ if(!sjmisc::is_empty(table.nivel)){
 }
 ```
 
-```{r 2-1-2-qualis, eval = all(render_document, any(has.sucupira.files)), echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', results = 'asis', fig.pos='H'}
+```{r 2-1-2-qualis, eval = all(render_document, any(has.metricas.doi.ppg, has.metricas.doi.sucupira)), echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', results = 'asis', fig.pos='H'}
 metricas_all_ID <- metricas_all[!duplicated(metricas_all$"ID da Produção"),]
 
 metricas_all_ID$Qualis[is.na(metricas_all_ID$Qualis)] <- "Não classificado"
@@ -6773,6 +6773,11 @@ if (knitr::is_latex_output() && !sjmisc::is_empty(table.2.1.2.b)) {
 
 # estratos qualis
 # List all tables
+# if non existent creat empty list
+if(!exists("table.bib.qualis")){
+  table.bib.qualis <- list()
+}
+
 table.2.1.2.c <- list(
   table.bib.qualis
 )
