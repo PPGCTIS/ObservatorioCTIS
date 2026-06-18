@@ -79,6 +79,8 @@ periodo.vigente <- anos
 ### **Distribuição nacional** {#egressos-nacional}
 
 ```{r egressos-periodo, eval = has.discentes}
+library(dplyr)
+
 discentes.raw <-
   readxl::read_excel(
     "PPG/Discentes.xlsx",
@@ -406,8 +408,22 @@ table.part1 <-
 }
 
 # Print HTML table
-if (knitr::is_html_output()) {
-  print(table.part1)
+if (knitr::is_html_output() && !sjmisc::is_empty(turmas.curso)) {
+  table.part1 <- table.part1 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.part1
 }
 
 source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
@@ -496,8 +512,22 @@ table.part2 <-
 }
 
 # Print HTML table
-if (knitr::is_html_output()) {
-  print(table.part2)
+if (knitr::is_html_output() && !sjmisc::is_empty(turmas.curso)) {
+  table.part2 <- table.part2 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.part2
 }
 
 source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
@@ -587,8 +617,22 @@ gtsummary::tbl_summary(
   table.part3 <- list()
 }
 # Print HTML table
-if (knitr::is_html_output()) {
-  print(table.part3)
+if (knitr::is_html_output() && !sjmisc::is_empty(turmas.doc)) {
+  table.part3 <- table.part3 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.part3
 }
 
 source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
@@ -622,9 +666,22 @@ if(!sjmisc::is_empty(turmas.posdoc)){
 
 # Print HTML table
 if (knitr::is_html_output() && !sjmisc::is_empty(turmas.posdoc)) {
-  print(table.part4)
+  table.part4 <- table.part4 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.part4
 }
-
 source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
 ```
 
@@ -1448,10 +1505,23 @@ if(any(lapply(table.3.1.2, length) > 0)){
 }
 
 # Print HTML table
-if (knitr::is_html_output() && !sjmisc::is_empty(table.3.1.2)) {
-  print(table.3.1.2)
+if (knitr::is_html_output() && length(table.3.1.2) > 0) {
+  table.3.1.2 <- table.3.1.2 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.3.1.2
 }
-
 source("Scripts/fonte-sucupira.R", local = knitr::knit_global())
 ```
 
@@ -1611,10 +1681,23 @@ table.3.2.1 <-
 
 
 # Print HTML table
-if (knitr::is_html_output()) {
-  print(table.3.2.1)
+if (knitr::is_html_output() && length(table.3.2.1) > 0) {
+  table.3.2.1 <- table.3.2.1 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.3.2.1
 }
-
 source("Scripts/fonte-metricas.R", local = knitr::knit_global())
 
 cat('\n\n')
@@ -1821,15 +1904,26 @@ table.1 <-
   gtsummary::modify_header(label = "**Agência**") %>%
   gtsummary::modify_footnote(update = gtsummary::everything() ~ NA) %>%
   gtsummary::bold_labels()
-# print table
-print(table.1)
 
-cat('\n\n')
-
-cat(
-  "**Fontes**: [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
-)
-cat('<br><a style="float:right" href="#top"><b>Início &nbsp;</b>', fontawesome::fa("circle-arrow-up"), '</a><br>')
+# Print HTML table
+if (knitr::is_html_output() && length(table.1) > 0) {
+  table.1 <- table.1 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.1
+}
+source("Scripts/fonte-agencias.R", local = knitr::knit_global())
 ```
 
 <br>
@@ -1871,8 +1965,25 @@ table.2 <-
   gtsummary::modify_header(label = "**Agência**") %>%
   gtsummary::modify_footnote(update = gtsummary::everything() ~ NA) %>%
   gtsummary::bold_labels()
-# print table
-print(table.2)
+
+# Print HTML table
+if (knitr::is_html_output() && length(table.2) > 0) {
+  table.2 <- table.2 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.2
+}
 
 cat('\n\n')
 
@@ -1918,9 +2029,25 @@ table.2 <-
   gtsummary::modify_header(label = "**Programa**") %>%
   gtsummary::modify_footnote(update = gtsummary::everything() ~ NA) %>%
   gtsummary::bold_labels()
-# print table
-print(table.2)
 
+# Print HTML table
+if (knitr::is_html_output() && length(table.2) > 0) {
+  table.2 <- table.2 %>%
+    gtsummary::as_gt() %>%
+    gt::tab_style(
+      style = gt::cell_borders(
+        sides = c("top", "bottom"),
+        color = "black", 
+        style = "solid",
+        weight = gt::px(0.5)
+      ),
+      locations = gt::cells_body(
+        columns = gt::everything(),
+        rows = gt::everything()
+    )
+  )
+  table.2
+}
 cat('\n\n')
 cat(
   "**Fontes**: [**CAPES**](https://www.gov.br/capes/pt-br), [**CNPq**](https://www.gov.br/cnpq/pt-br), [**FAPERJ**](http://www.faperj.br), **UNISUAM**"
